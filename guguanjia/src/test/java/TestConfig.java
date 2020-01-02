@@ -1,10 +1,14 @@
 import com.alibaba.druid.pool.DruidDataSource;
+import com.dfbz.config.SpringCacheConfig;
 import com.dfbz.config.SpringMybatisConfig;
 import com.dfbz.entity.AppVersion;
 import com.dfbz.service.AppVersionService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -26,6 +30,9 @@ public class TestConfig {
 
     @Autowired
     AppVersionService appVersionService;
+
+    @Autowired
+    JedisConnectionFactory jedisConnectionFactory;
 
     @Test
     public void testDataSource() throws SQLException {
@@ -53,4 +60,26 @@ public class TestConfig {
 //        int a = i / 0;
 //        System.out.println(appVersion);
 //    }
+
+    @Test
+    public void testSpringCache() {
+        System.out.println(jedisConnectionFactory.getConnection().getNativeConnection());
+    }
+
+
+    @Autowired
+    RedisTemplate redisTemplate;
+
+    @Test
+    public void testRedisTemplate() {
+        ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
+        valueOperations.set("key1", "value1");
+        valueOperations.set("键2", "值2");
+        System.out.println(valueOperations.get("key1"));
+        System.out.println(redisTemplate.keys("*"));
+
+        System.out.println(redisTemplate.hasKey("key1"));
+        System.out.println(valueOperations.get("num"));
+    }
+
 }

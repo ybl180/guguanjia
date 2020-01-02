@@ -6,6 +6,8 @@ import com.dfbz.service.StatuteService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
@@ -22,10 +24,13 @@ import java.util.Map;
  */
 @Service
 @Transactional
+@CacheConfig(cacheNames = "statuteCache")
 public class StatuteServiceImpl extends BaseServiceImpl<Statute> implements StatuteService {
     @Autowired
     StatuteMapper statuteMapper;
 
+    //命中率：正确命中缓存的数据
+    @Cacheable(key = "'StatuteServiceImpl:selectByCondition'+#params['pageNum']+#params['pageSize']+#params['type']")
     public PageInfo<Statute> selectByCondition(Map<String, Object> params) {
         if (!params.containsKey("pageNum") || StringUtils.isEmpty("pageNum")) {
             params.put("pageNum", 1);

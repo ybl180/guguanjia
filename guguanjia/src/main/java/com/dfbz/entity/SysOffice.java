@@ -3,10 +3,11 @@ package com.dfbz.entity;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import java.io.Serializable;
 import java.util.Date;
 
 @Table(name = "sys_office")
-public class SysOffice {
+public class SysOffice implements Serializable {
     /**
      * 编号
      */

@@ -27,7 +27,7 @@ import java.util.Properties;
  * 1.数据源配置
  * 2.SqlSessionFactoryBean配置
  * 3.开启扫描mapper接口
- *
+ * <p>
  * spring整合日志：
  * 1.导入log4j2\slf4j依赖
  * 2.在resources下放入log4j2.xml
@@ -35,8 +35,8 @@ import java.util.Properties;
  */
 @Configuration
 @MapperScan(basePackages = "com.dfbz.mapper")
-@Import(SpringTransactionConfig.class)
-@PropertySource(value = "classpath:system.properties",encoding = "utf-8")
+@Import({SpringTransactionConfig.class, SpringCacheConfig.class})
+@PropertySource(value = "classpath:system.properties", encoding = "utf-8")
 public class SpringMybatisConfig {
 
     @Bean
