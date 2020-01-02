@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <!--
+    引入菜单树依赖js，必须先引入jq
+    -->
+    <script src="../js/jquery-1.4.4.min.js"></script>
+    <!--
+    ztree.all.js=core+excheck+exedit
+    基本菜单树只需要core.js
+    -->
+    <script src="../js/jquery.ztree.core.js"></script>
+    <script src="../js/vue.js"></script>
+
+    <!--
+    ztree提供了三种风格样式文件，只需要引入对应风格的css文件，但需要注意该文件对应的img
+    文件夹不能移动位置
+    -->
+    <link rel="stylesheet" href="../css/metroStyle/metroStyle.css">
+    <!--<link rel="stylesheet" href="../css/zTreeStyle/zTreeStyle.css">-->
+</head>
+<body>
+<div id="treeDiv" style="height: 100px;">
+    <input  style="width: 100px;" v-model="name" @keydown.enter="search" />
+    <!--ul用于生成菜单树 注意默认class为ztree
+    需求:点击节点，将节点名字放入到input中
+    -->
+    <ul id="treeDemo"  class="ztree">
+
+    </ul>
+</div>
+</body>
+
+
+<script>
+    let vm = new Vue({
+        el:'#treeDiv',
+        //解决 data中调用当前绑定的函数  的问题
+        data:function(){
+            return {
+                setting: {
+                    data: {
+                        simpleData: {
+                            enable: true//开启简单数据模式支持
+                            // "pId"Key:""pId""
+                        }
+                    },
+                    callback: {
+                        onClick: this.clickNode//如果设置this.xxx  methods对象还没有，不能绑定上
+                    },
+                    view:{
+                        fontCss:this.fontCss//每次对元素节点进行创建或修改的时候都会自动调用该样式设置规则
+                    }
+                },
+                name:''
+            }
+        },
+        methods:{
+            //初始化菜单树
+            initTree:function(){
+                //菜单树支持两种结果的节点数组：
+                // 简单数组格式 :[{"id":1,name:'个人中心',"pId":0},{"id":2,name:'单位管理',"pId":0},{"id":3,name:'业务管理',"pId":0},{"id":4,name:'我的资料',"pId":1},{"id":5,name:'单位信息',"pId":2},{"id":6,name:'单位账号',"pId":2},{"id":7,name:'电子台账',"pId":2}]
+                let  nodes= [{"id": 1, name: '个人中心', "pId": 0, open: true}, {"id": 2, name: '单位管理', "pId": 0}, {
+                    "id": 3,
+                    name: '业务管理',
+                    "pId": 0
+                }, {"id": 4, name: '我的资料', "pId": 1}, {"id": 5, name: '单位信息', "pId": 2}, {
+                    "id": 6,
+                    name: '单位账号',
+                    "pId": 2
+                }, {"id": 7, name: '电子台账', "pId": 2}]
+                //ztree对象的初始化函数 :  init(obj,zSetting,zNodes)
+                //obj:用于挂载树元素的html的dom对象
+                //zSetting:用于配置树的配置对象
+                //zNodes：用于显示的节点集合
+                let treeObj = $.fn.zTree.init($("#treeDemo"),this.setting,nodes);
+                console.log(treeObj.getNodes())//复杂数组格式
+            },
+            clickNode:function (event,treeId,treeNode) {
+                console.log(treeId);
+                console.log(treeNode);
+                this.name = treeNode.name;
+            },
+            search:function(){
+                /**
+                 * 1.获取树对象
+                 * 2.进行模糊查询匹配到所有的匹配节点数组
+                 * 3.获取所有节点数据，转换成简单数组模式
+                 * 4.遍历所有节点，给所有找到的节点设置一个高亮标记属性  清除前需要修改旧查询到的节点标记为false
+                 * 5.更新树对象
+                 */
+                let zTreeObj = $.fn.zTree.getZTreeObj("treeDemo");
+                let nodes = zTreeObj.getNodesByParamFuzzy("name",this.name,null);
+                console.log(nodes);
+                let zTreeNodes= zTreeObj.transformToArray(zTreeObj.getNodes());
+                console.log(zTreeNodes);
+
+                //先清除高亮
+                for (let i = 0; i < zTreeNodes.length; i++) {
+                    zTreeNodes[i].highLight=false;
+                    zTreeObj.updateNode(zTreeNodes[i]);
+                }
+
+                for (let i = 0; i < zTreeNodes.length; i++) {
+                    for (let j = 0; j < nodes.length; j++) {
+                        if(zTreeNodes[i].name==nodes[j].name){
+                            zTreeNodes[i].highLight=true;
+                            zTreeObj.updateNode(zTreeNodes[i]);//在树对象上更新节点
+                            break;
+                        }
+                    }
+                }
+
+
+            },
+
+            fontCss: function (treeId,treeNode) {
+                //如果treeNode是 单位管理，则高亮
+                // return treeNode.name=="单位管理"?{color:"red"}:'';
+                //如果是highLight标记为true的高亮
+                return treeNode.highLight?{color:"red"}:{color:'black'};
+            }
+        },
+        mounted:function () {//在挂载dom后调用
+            this.initTree();
+        }
+    })
+
+</script>
+</html>

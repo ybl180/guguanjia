@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+    <!--ztree提供三种风格样式文件-->
+    <link rel="stylesheet" href="../css/metroStyle/metroStyle.css">
+    <script src="../js/jquery-1.4.4.min.js"></script>
+    <!--ztree.all.js=core+exedit+-excheck-->
+    <script src="../js/jquery.ztree.core.js"></script>
+    <script src="../js/vue.js"></script>
+
+</head>
+<body>
+<div id="treeDiv" style="height: 100px;">
+    <input style="width: 100px;" v-model="name"/>
+    <!--ul用于生成菜单树 注意默认class为ztree   -->
+    <ul id="treeDemo" class="ztree">
+
+    </ul>
+</div>
+</body>
+<script>
+    let vm = new Vue({
+        el: "#treeDiv",
+        data: function () {
+            return {
+                setting: {
+                    data: {
+                        simpleData: {
+                            enable: true,//开启简单数据模式支持
+                        }
+                    }
+                },
+                callback: {
+                    onClick: this.clickNode//如果设置this.xxx  methods对象还没有，不能绑定上
+                },
+                name: ''
+            }
+        },
+        methods: {
+            initTree: function () {
+                let nodes = [{"id": 1, name: '个人中心', "pId": 0}, {"id": 2, name: '单位管理', "pId": 0}, {
+                    "id": 3,
+                    name: '业务管理',
+                    "pId": 0
+                }, {"id": 4, name: '我的资料', "pId": 1}, {"id": 5, name: '单位信息', "pId": 2}, {
+                    "id": 6,
+                    name: '单位账号',
+                    "pId": 2
+                }]
+                //ztree对象的初始化函数 :  init(obj,zSetting,zNodes)
+                //obj:用于挂载树元素的html的dom对象
+                //zSetting:用于配置树的配置对象
+                //zNodes：用于显示的节点集合
+                let treeObj = $.fn.zTree.init($("#treeDemo"), this.setting, nodes);
+                console.log(treeObj)
+            },
+            clickNode: function (event, treeId, treeNode) {
+                console.log(treeId);
+                console.log(treeNode);
+                this.name = treeNode.name;
+            }
+        },
+        mounted: function () {//在挂载dom后调用
+            this.initTree();
+        }
+    })
+</script>
+
+</html>

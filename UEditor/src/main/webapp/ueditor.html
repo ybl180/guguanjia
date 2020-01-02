@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <base href="/ueditor/">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!--引入三个富文本编辑器js文件-->
+    <!--ueditor.all.js-富文本编辑器的内置js逻辑   ueditor.config.js-内置配置js  zh-cn.js汉化文件-->
+    <script src="static/ueditor/ueditor.all.js"></script>
+    <script src="static/ueditor/ueditor.config.js"></script>
+    <!--<script src="static/ueditor/lang/zh-cn/zh-cn.js"></script>-->
+    <script src="static/vue/axios.js"></script>
+    <script src="static/vue/vue.js"></script>
+    <!--封装了百度富文本编辑器并且通过vue进行组件化-->
+    <script src="static/vue-ueditor-wrap.min.js"></script>
+</head>
+<body>
+<div id="app">
+    <vue-ueditor-wrap v-model="msg" :config="ueditorConfig"></vue-ueditor-wrap>
+</div>
+
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            msg: '<h2><img src="http://img.baidu.com/hi/jx2/j_0003.gif"/>Vue + UEditor + v-model双向绑定</h2>',
+            ueditorConfig: {
+                UEDITOR_HOME_URL: 'static/ueditor/',
+                serverUrl: 'doExec'          // "ueditor/doExec"
+            }
+        },
+        methods: {},
+        components: {//引入vue组件
+            VueUeditorWrap
+        }
+    })
+</script>
+</html>
