@@ -1,5 +1,8 @@
 package com.dfbz.entity;
 
+import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.annotation.format.DateTimeFormat;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -11,6 +14,7 @@ public class SysArea {
      * 编号
      */
     @Id
+    @ExcelProperty(index = 0,value="编号")
     private Long id;
 
     /**
@@ -50,6 +54,7 @@ public class SysArea {
      * 创建时间
      */
     @Column(name = "create_date")
+    @DateTimeFormat("yyyy-MM-dd")
     private Date createDate;
 
     /**
