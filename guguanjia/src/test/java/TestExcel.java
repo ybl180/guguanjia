@@ -7,12 +7,15 @@ import com.dfbz.config.SpringMybatisConfig;
 import com.dfbz.entity.SysArea;
 import com.dfbz.entity.SysAreaListener;
 import com.dfbz.mapper.SysAreaMapper;
+import com.dfbz.service.SysAreaService;
+import com.github.pagehelper.PageInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -57,5 +60,29 @@ public class TestExcel {
         ReadSheet sheet = EasyExcel.readSheet(0).build();
         reader.read(sheet);//读资源
         reader.finish();
+    }
+
+
+    @Autowired
+    SysAreaService sysAreaService;
+
+    @Test
+    public void test() {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("pid",0);
+        map.put("name","广");
+        PageInfo<SysArea> pageInfo = sysAreaService.selectByCondition(map);
+//        List<SysArea> sysAreas = sysAreaMapper.selectByCondition(map);
+//        System.out.println(pageInfo);
+    }
+
+    @Test
+    public void test1(){
+        SysArea sysArea = sysAreaService.selectByPrimaryKey(3);//上海
+        sysArea.setOldParentId(sysArea.getParentId());
+        sysArea.setParentId(6L);
+        int i = sysAreaService.updateArea(sysArea);
+        System.out.println(i);
+
     }
 }

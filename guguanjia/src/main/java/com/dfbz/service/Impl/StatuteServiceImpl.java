@@ -32,13 +32,13 @@ public class StatuteServiceImpl extends BaseServiceImpl<Statute> implements Stat
     //命中率：正确命中缓存的数据
     @Cacheable(key = "'StatuteServiceImpl:selectByCondition'+#params['pageNum']+#params['pageSize']+#params['type']")
     public PageInfo<Statute> selectByCondition(Map<String, Object> params) {
-        if (!params.containsKey("pageNum") || StringUtils.isEmpty("pageNum")) {
+        if (!params.containsKey("pageNum") || StringUtils.isEmpty(params.get("pageNum"))) {
             params.put("pageNum", 1);
         }
-        if (!params.containsKey("pageSize") || StringUtils.isEmpty("pageSize")) {
+        if (!params.containsKey("pageSize") || StringUtils.isEmpty(params.get("pageSize"))) {
             params.put("pageSize", 5);
         }
-        PageHelper.startPage((int)params.get("pageNum"), (int)params.get("pageSize"));
+        PageHelper.startPage((int) params.get("pageNum"), (int) params.get("pageSize"));
         List<Statute> list = statuteMapper.selectByCondition(params);
         return new PageInfo<>(list);
     }

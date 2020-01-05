@@ -21,4 +21,6 @@ public interface SysAreaService extends BaseService<SysArea>{
     int readExcel(InputStream inputStream);
 
     PageInfo<SysArea> selectByCondition(Map<String, Object> params);
+
+    int updateArea(SysArea area);
 }

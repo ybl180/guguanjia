@@ -12,6 +12,7 @@ import com.dfbz.mapper.SysAreaMapper;
 import com.dfbz.service.SysAreaService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,19 +63,32 @@ public class SysAreaServiceImpl extends BaseServiceImpl<SysArea> implements SysA
     }
 
     public PageInfo<SysArea> selectByCondition(Map<String, Object> params) {
-        if (!params.containsKey("pageNum") || StringUtils.isEmpty("pageNum")) {
+
+        if (!params.containsKey("pageNum") || StringUtils.isEmpty(params.get("pageNum"))) {
             params.put("pageNum", 1);
         }
-        if (!params.containsKey("pageSize") || StringUtils.isEmpty("pageSize")) {
+        if (!params.containsKey("pageSize") || StringUtils.isEmpty(params.get("pageSize"))) {
             params.put("pageSize", 5);
         }
-        PageHelper.startPage((int)params.get("pageNum"), (int)params.get("pageSize"));
-        List<SysArea> list = sysAreaMapper.selectByCondition(params);
+        PageHelper.startPage((int) params.get("pageNum"), (int) params.get("pageSize"));
+        List<SysArea> list = null;
+        if (params.containsKey("pid") && !StringUtils.isEmpty(params.get("pid"))) {
+            list = sysAreaMapper.selectByCondition(params);
+        }
         return new PageInfo<>(list);
     }
 
-
-
-
+    /* 1.更新区域的信息
+     * 2.根据当前区域是否有更新parentIds来判断是否要更新所有的子区域的parentIds
+     */
+    @Override
+    public int updateArea(SysArea area) {
+        int i = 0;
+        i += sysAreaMapper.updateByPrimaryKey(area);
+        if (area.getParentId() != area.getOldParentId()) {
+            i += sysAreaMapper.updateParentIds(area);
+        }
+        return i;
+    }
 
 }

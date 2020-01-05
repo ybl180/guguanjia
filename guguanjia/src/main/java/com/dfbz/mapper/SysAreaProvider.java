@@ -31,6 +31,7 @@ public class SysAreaProvider {
         return sb.toString();
     }
 
+    //根据父区域id查找所有区域
     public String selectByCondition(Map<String, Object> params) {
         StringBuilder sb = new StringBuilder();
         sb.append("select " +
@@ -43,9 +44,10 @@ public class SysAreaProvider {
                 "on " +
                 "sub.parent_id=parent.id " +
                 "where " +
-                "1=1 ");
-        if (params.containsKey("parentIds") && !StringUtils.isEmpty(params.get("parentIds"))) {
-            sb.append("and sub.parent_ids like concat('%',',#{parentIds},','%')");
+                " (sub.parent_ids like CONCAT('%',#{pid},'%')" +
+                "or sub.id=#{pid})");
+        if (params.containsKey("name") && !StringUtils.isEmpty(params.get("name"))) {
+            sb.append(" and sub.name like CONCAT('%',#{name},'%')");
         }
         return sb.toString();
     }

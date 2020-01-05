@@ -6,6 +6,7 @@ import com.alibaba.excel.annotation.format.DateTimeFormat;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.Date;
 
 @Table(name = "sys_area")
@@ -14,7 +15,7 @@ public class SysArea {
      * 编号
      */
     @Id
-    @ExcelProperty(index = 0,value="编号")
+    @ExcelProperty(index = 0, value = "编号")
     private Long id;
 
     /**
@@ -81,6 +82,29 @@ public class SysArea {
     private String delFlag;
 
     private String icon;
+
+    @Transient
+    private String parentName;//父级区域名
+
+    public Long getOldParentId() {
+        return oldParentId;
+    }
+
+    public void setOldParentId(Long oldParentId) {
+        this.oldParentId = oldParentId;
+    }
+
+    @Transient
+    private Long oldParentId;//保存旧的父id
+
+
+    public String getParentName() {
+        return parentName;
+    }
+
+    public void setParentName(String parentName) {
+        this.parentName = parentName;
+    }
 
     /**
      * 获取编号
