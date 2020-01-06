@@ -1,6 +1,9 @@
 package com.dfbz.service;
 
 import com.dfbz.entity.SysOffice;
+import com.github.pagehelper.PageInfo;
+
+import java.util.Map;
 
 /**
  * @author ybl
@@ -10,4 +13,10 @@ import com.dfbz.entity.SysOffice;
  * @desciption
  */
 public interface SysOfficeService extends BaseService<SysOffice> {
+    PageInfo<SysOffice> selectPage(Map<String, Object> params);
+
+    //通过office的id查询office和关联waste areaName
+    SysOffice selectByOid(Long oid);
+
+    int update(SysOffice sysOffice);
 }

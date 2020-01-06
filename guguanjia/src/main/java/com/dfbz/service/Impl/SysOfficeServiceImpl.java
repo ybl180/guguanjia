@@ -1,7 +1,11 @@
 package com.dfbz.service.Impl;
 
+import com.dfbz.entity.Qualification;
 import com.dfbz.entity.SysOffice;
+import com.dfbz.mapper.SysOfficeMapper;
 import com.dfbz.service.SysOfficeService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
@@ -10,8 +14,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author ybl
@@ -24,7 +30,8 @@ import java.util.List;
 @Transactional
 @CacheConfig(cacheNames = "sysOfficeCache")
 public class SysOfficeServiceImpl extends BaseServiceImpl<SysOffice> implements SysOfficeService {
-//
+    @Autowired
+    SysOfficeMapper sysOfficeMapper;
 //    @Autowired
 //    RedisTemplate<String, Object> redisTemplate;
 //
@@ -75,5 +82,46 @@ public class SysOfficeServiceImpl extends BaseServiceImpl<SysOffice> implements 
     @Override
     public int updateByPrimaryKeySelective(SysOffice record) {
         return super.updateByPrimaryKeySelective(record);
+    }
+
+
+    //条件分页查询
+    @Override
+    public PageInfo<SysOffice> selectPage(Map<String, Object> params) {
+        if (!params.containsKey("pageNum") || StringUtils.isEmpty("pageNum")) {
+            params.put("pageNum", 1);
+        }
+        if (!params.containsKey("pageSize") || StringUtils.isEmpty("pageSize")) {
+            params.put("pageSize", 5);
+        }
+        PageHelper.startPage((int) params.get("pageNum"), (int) params.get("pageSize"));
+        List<SysOffice> list = sysOfficeMapper.selectByCondition(params);
+        return new PageInfo<>(list);
+    }
+
+    //通过office的id查询office和关联waste areaName
+    @Override
+    public SysOffice selectByOid(Long oid) {
+        return sysOfficeMapper.selectByOid(oid);
+    }
+
+    @Override
+    public int update(SysOffice sysOffice){
+        long[] wasteIds = null;
+        int result = 0;
+
+        mapper.updateByPrimaryKeySelective(sysOffice);
+        result+=1;
+        sysOfficeMapper.deleteOfficeWaste(sysOffice.getId());
+        result += 1;
+        if(sysOffice.getWastes().size()>0){
+            wasteIds = new long[sysOffice.getWastes().size()];
+            for (int i = 0; i < sysOffice.getWastes().size(); i++) {
+                wasteIds[i]=sysOffice.getWastes().get(i).getId();
+            }
+            sysOfficeMapper.insertBathOfficeWaste(sysOffice.getId(),wasteIds);
+            result +=1;
+        }
+        return result;
     }
 }

@@ -22,6 +22,6 @@ public interface SysAreaMapper extends Mapper<SysArea> {
     @Update("update sys_area set " +
             "parent_ids=replace(parent_ids,#{oldParentId},#{parentId}) " +
             "where " +
-            "parent_ids like concat('%',#{id},'%')")
+            "id=#{id} or parent_ids like concat('%',#{id},'%')")
     int updateParentIds(SysArea area);
 }

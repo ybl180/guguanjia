@@ -45,4 +45,13 @@ public class TestSysOffice {
         int i = sysOfficeService.updateByPrimaryKeySelective(sysOffice);
     }
 
+    @Autowired
+    SysOfficeMapper mapper;
+    @Test
+    public void tests(){
+        Map<String, Object> map = new HashMap<>();
+        map.put("name","重");
+        List<SysOffice> sysOffices = mapper.selectByCondition(map);
+    }
+
 }

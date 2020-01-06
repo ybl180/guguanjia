@@ -40,7 +40,7 @@ new Vue({
         },
         initTree: function () {
             axios({
-                url: "manager/sys_office/list"
+                url: "manager/office/list"
             }).then(response => {
                 let zNodes = response.data;
                 zNodes[zNodes.length] = {id: 0,  name: '所有机构', open: true};

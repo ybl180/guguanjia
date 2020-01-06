@@ -115,10 +115,7 @@
                                                     <input class="form-control search-query" type="text" readonly=""
                                                            id="treeselectname" name="" v-model="area.parentName">
                                                     <span class="input-group-btn">
-		<span class="btn btn-purple btn-sm" type="button" style="height: 34px;" data-mode="page"
-              data-url="/guguanjia/manager/tag/treeselect"
-              data-data="{url:'/guguanjia/manager/area/tree',id:'treeselectid',nameId:'treeselectname',pIdKey:'parentId',selectIds:'1',curId:'2',checked:'false',rootNodeName:'',isLayer:'true'}"
-              data-title="请选择" data-width="350px" data-height="400px">
+		<span class="btn btn-purple btn-sm" type="button" style="height: 34px;">
 			<i class="ace-icon fa fa-search bigger-110" ></i>
             <a href="" @click.prevent="selectParent" >查找</a>
 		</span>
@@ -189,12 +186,12 @@
 <script src="static/ace/js/ace-elements.min.js"></script>
 <script src="static/ace/js/ace.min.js"></script>
 <script>
-    $(function () {
-        $("#chosen-select").chosen({
-            width: "100%",
-            search_contains: true
-        });
-    });
+    // $(function () {
+    //     $("#chosen-select").chosen({
+    //         width: "100%",
+    //         search_contains: true
+    //     });
+    // });
 </script>
 <script type="text/javascript">
 

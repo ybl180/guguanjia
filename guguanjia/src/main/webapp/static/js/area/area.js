@@ -65,7 +65,6 @@ new Vue({
                 data: this.params,
             }).then(response => {
                 this.pageInfo = response.data;
-                console.log(this.pageInfo)
             }).catch(error => {
                 layer.msg(error.message);
             })

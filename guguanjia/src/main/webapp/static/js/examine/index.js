@@ -38,7 +38,7 @@ new Vue({
         //初始化菜单树
         initTree: function () {
             axios({
-                url: "manager/sys_office/list"
+                url: "manager/office/list"
             }).then(response => {
                 let nodes = response.data;
                 nodes[nodes.length] = {id: 0, name: '所有机构', open: true};

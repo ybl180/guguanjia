@@ -3,6 +3,7 @@ package com.dfbz.entity;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.Date;
 
 @Table(name = "waste")
@@ -46,6 +47,17 @@ public class Waste {
 
     @Column(name = "create_by")
     private String createBy;
+
+    @Transient
+    private String wasteTypeCode;
+
+    public String getWasteTypeCode() {
+        return wasteTypeCode;
+    }
+
+    public void setWasteTypeCode(String wasteTypeCode) {
+        this.wasteTypeCode = wasteTypeCode;
+    }
 
     /**
      * @return id
