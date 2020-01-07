@@ -4,7 +4,6 @@ import com.dfbz.entity.Result;
 import com.dfbz.entity.SysOffice;
 import com.dfbz.entity.Waste;
 import com.dfbz.entity.WasteType;
-import com.dfbz.mapper.SysOfficeMapper;
 import com.dfbz.service.SysOfficeService;
 import com.dfbz.service.WasteService;
 import com.dfbz.service.WasteTypeService;
@@ -74,10 +73,10 @@ public class SysOfficeController {
     }
 
     @RequestMapping("doUpdate")
-    public Result doUpdate(@RequestBody SysOffice sysOffice){
+    public Result doUpdate(@RequestBody SysOffice sysOffice) {
         int update = sysOfficeService.update(sysOffice);
         Result result = new Result();
-        if(update>0){
+        if (update > 0) {
             result.setMsg("更新成功");
             result.setSuccess(true);
         }

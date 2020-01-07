@@ -66,6 +66,17 @@ public class SysUser {
     @Transient
     private String OfficeName;
 
+    @Transient
+    private String roleName;
+
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
     public String getOfficeName() {
         return OfficeName;
     }
@@ -94,6 +105,7 @@ public class SysUser {
      * 最后登陆时间
      */
     @Column(name = "login_date")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date loginDate;
 
     /**
@@ -113,13 +125,13 @@ public class SysUser {
      * 更新者
      */
     @Column(name = "update_by")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private String updateBy;
 
     /**
      * 更新时间
      */
     @Column(name = "update_date")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateDate;
 
     /**

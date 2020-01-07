@@ -1,8 +1,8 @@
 <!--<!DOCTYPE html>-->
 <!--<html lang="en">-->
 <!--<head>-->
-    <!--<meta charset="UTF-8">-->
-    <!--<title>Title</title>-->
+<!--<meta charset="UTF-8">-->
+<!--<title>Title</title>-->
 <!--</head>-->
 <!--<body>-->
 
@@ -113,7 +113,7 @@
                     <img class="nav-user-photo" src="static/img/small-male-pic.png"/>
                     <span class="user-info">
 									<small>你好,</small>
-									超级管理员
+									{{loginUserName}}
 								</span>
 
                     <i class="ace-icon fa fa-caret-down"></i>
@@ -130,7 +130,7 @@
                     <li class="divider"></li>
 
                     <li>
-                        <a href="../login.html">
+                        <a href="toLogin">
                             <i class="ace-icon fa fa-power-off"></i>
                             退出
                         </a>
@@ -140,7 +140,20 @@
         </ul>
     </div>
 </div><!-- /.navbar-container -->
-
+<script>
+    new Vue({
+        el: "#navbar-container",
+        data: {
+            loginUserName: ''
+        },
+        mounted: function () {
+            let userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
+            if (userInfo != null) {
+                this.loginUserName = userInfo.name;
+            }
+        }
+    })
+</script>
 
 <!--</body>-->
 <!--</html>-->

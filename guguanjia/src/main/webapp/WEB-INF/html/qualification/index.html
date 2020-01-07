@@ -299,7 +299,7 @@
                                                             @click="pageInfo.prePage,pageInfo.pageSize">上一页</a></li>
                                                     <li class="prev disabled" v-else="!pageInfo.hasPreviousPage"><a
                                                             href="javascript:void(0);">上一页</a></li>
-                                                    <li class="pageInfo.pageNum==num?'active':''"
+                                                    <li :class="pageInfo.pageNum==num?'active':''"
                                                         v-for="num in pageInfo.navigatepageNums"><a
                                                             href="javascript:void(0);"
                                                             @click="selectAll(num,pageInfo.pageSize)">{{num}}</a>

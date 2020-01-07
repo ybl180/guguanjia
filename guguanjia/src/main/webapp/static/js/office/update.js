@@ -3,16 +3,19 @@ new Vue({
     data: {
         office: {},
         wasteTypes: [],
-        wastes: []
+        wastes: [],
+        wasteTypeCode: ''
     },
     methods: {
         doUpdate: function () {
             axios({
-                url:'manager/office/doUpdate',
-                method:'post',
-                data:this.office
+                url: 'manager/office/doUpdate',
+                method: 'post',
+                data: this.office
             }).then(response => {
                 layer.msg(response.data.msg);
+                let index = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(index);
 
             }).catch(function (error) {
                 layer.msg(error.message);
@@ -28,7 +31,7 @@ new Vue({
         },
 
         createWastes: function (e, param) {
-            //e 事件源；param 触发事件的元素选项
+            //e 事件源； param 触发事件的元素选项
             axios({
                 url: "manager/office/selectWaste",
                 params: param
@@ -41,12 +44,12 @@ new Vue({
                         this.wasteTypeCode = this.wasteTypes[i].code;
                     }
                 }
-
             }).catch()
         },
 
         selectWaste: function (e, param) {
             //从this.wastes中获取waste，放入office.wastes
+            // console.log(param)
             for (let i = 0; i < this.wastes.length; i++) {
                 if (this.wastes[i].id == param.selected) {
                     //判断在office.wastes中是否存在，不存在才添加
@@ -64,10 +67,13 @@ new Vue({
                 }
             }
         },
+        removeWaste: function () {//移除waste
 
+        }
     },
     created: function () {
         this.office = parent.layer.obj;
+        console.log(this.office)
         this.createdWasteTypes()
     },
     mounted: function () {

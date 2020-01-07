@@ -3,6 +3,7 @@ package com.dfbz.entity;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import java.util.Date;
 
 @Table(name = "sys_role")
@@ -64,6 +65,17 @@ public class SysRole {
      */
     @Column(name = "del_flag")
     private String delFlag;
+
+    @Transient
+    private String officeName;
+
+    public String getOfficeName() {
+        return officeName;
+    }
+
+    public void setOfficeName(String officeName) {
+        this.officeName = officeName;
+    }
 
     /**
      * 获取编号
