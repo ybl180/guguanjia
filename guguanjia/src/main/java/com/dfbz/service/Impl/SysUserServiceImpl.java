@@ -49,4 +49,14 @@ public class SysUserServiceImpl extends BaseServiceImpl<SysUser> implements SysU
         List<SysUser> list = sysUserMapper.selectByCondition(params);
         return new PageInfo<>(list);
     }
+
+    @Override
+    public List<SysUser> selectByRid(Long rid) {
+        return sysUserMapper.selectByRid(rid);
+    }
+
+    @Override
+    public List<SysUser> selectNoRole(Long rid, Long oid) {
+        return sysUserMapper.selectNoRole(rid, oid);
+    }
 }

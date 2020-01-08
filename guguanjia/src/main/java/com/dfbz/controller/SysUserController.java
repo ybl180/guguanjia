@@ -1,5 +1,6 @@
 package com.dfbz.controller;
 
+import com.dfbz.entity.Result;
 import com.dfbz.entity.SysRole;
 import com.dfbz.entity.SysUser;
 import com.dfbz.service.SysRoleService;
@@ -44,4 +45,15 @@ public class SysUserController {
     public List<SysRole> createRole() {
         return sysRoleService.selectAllRole();
     }
+
+    @RequestMapping("selectByRid")
+    public List<SysUser> selectBydRid(Long rid) {
+        return sysUserService.selectByRid(rid);
+    }
+
+    @RequestMapping("selectNoRole")
+    public List<SysUser> selectNoRole(long rid, long oid) {
+        return sysUserService.selectNoRole(rid, oid);
+    }
+
 }

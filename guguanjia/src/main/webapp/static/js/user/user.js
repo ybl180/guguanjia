@@ -101,6 +101,10 @@ new Vue({
             })
         },
         addRolesCondition:function (e,param) {
+            //TODO
+            for (let i = 0; i <this.Roles.length ; i++) {
+
+            }
 
             console.log(param)
             console.log(e)

@@ -1,8 +1,10 @@
 package com.dfbz.service;
 
 import com.dfbz.entity.SysRole;
+import com.github.pagehelper.PageInfo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author ybl
@@ -13,4 +15,10 @@ import java.util.List;
  */
 public interface SysRoleService extends BaseService<SysRole> {
     List<SysRole> selectAllRole();
+
+    PageInfo<SysRole> selectPage(Map<String, Object> params);
+
+    int deleteBatch(Long rid, Long[] uids);
+
+    int insertBatch(long rid, List<Long> uids);
 }

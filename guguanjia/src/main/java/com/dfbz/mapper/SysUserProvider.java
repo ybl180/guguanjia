@@ -26,7 +26,7 @@ public class SysUserProvider {
                 "WHERE " +
                 " su.del_flag = 0 ");
         if (params.containsKey("userNo") && !StringUtils.isEmpty(params.get("userNo"))) {
-            sb.append(" AND so.id = #{userNo} ");
+            sb.append(" AND su.`on` = #{userNo} ");
         }
         if (params.containsKey("name") && !StringUtils.isEmpty(params.get("name"))) {
             sb.append(" AND su.NAME LIKE concat( '%', #{name}, '%' )  ");
@@ -34,6 +34,7 @@ public class SysUserProvider {
         if (params.containsKey("officeId") && !StringUtils.isEmpty(params.get("officeId")) && (int)params.get("officeId") != 0) {
             sb.append(" AND so.id = #{officeId}  ");
         }
+        //TODO
 //        if (params.containsKey("roleIds") && !StringUtils.isEmpty(params.get("roleIds"))) {
 //            sb.append(" AND sr.id IN ( '', '' )  ");
 //        }
