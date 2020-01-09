@@ -2,6 +2,8 @@ package com.dfbz.mapper;
 
 import org.springframework.util.StringUtils;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,12 +33,18 @@ public class SysUserProvider {
         if (params.containsKey("name") && !StringUtils.isEmpty(params.get("name"))) {
             sb.append(" AND su.NAME LIKE concat( '%', #{name}, '%' )  ");
         }
-        if (params.containsKey("officeId") && !StringUtils.isEmpty(params.get("officeId")) && (int)params.get("officeId") != 0) {
+        if (params.containsKey("officeId") && !StringUtils.isEmpty(params.get("officeId")) && (int) params.get("officeId") != 0) {
             sb.append(" AND so.id = #{officeId}  ");
         }
         //TODO
 //        if (params.containsKey("roleIds") && !StringUtils.isEmpty(params.get("roleIds"))) {
-//            sb.append(" AND sr.id IN ( '', '' )  ");
+//            List<Object> roleIds = Arrays.asList(params.get("roleIds"));
+//            sb.append(" AND sr.id IN ( ");
+//            for (int i = 0; i < roleIds.size(); i++) {
+//                sb.append("#{roleIds[" + i + "]},");
+//            }
+//            sb.deleteCharAt(sb.length() - 1);
+//            sb.append(")");
 //        }
         return sb.toString();
     }

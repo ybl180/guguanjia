@@ -38,11 +38,6 @@ public class SysRoleController {
         return sysRoleService.selectPage(params);
     }
 
-    @RequestMapping("toUpdatePage")
-    public ModelAndView toUpdatePage() {
-        return new ModelAndView("/role/role-save");
-    }
-
     @RequestMapping("toRoleUserPage")
     public ModelAndView toRoleUserPage() {
         return new ModelAndView("/role/role-user");
@@ -60,8 +55,8 @@ public class SysRoleController {
 
 
     @RequestMapping("insertBatch")
-    public Result insertBatch(long rid, Long[] uids) {
-        List<Long> list = new ArrayList<Long>();
+    public Result insertBatch(Long rid, Long[] uids) {
+//        List<Long> list = new ArrayList<>();
         //Arrays.asList(uids):   将传入的数组转换成list集合  只支持非基本类型数组转换集合list
         //所以接收方法参数需要设置成包装类的数组Long[]
         int i = sysRoleService.insertBatch(rid, Arrays.asList(uids));
@@ -71,5 +66,10 @@ public class SysRoleController {
             result.setSuccess(true);
         }
         return result;
+    }
+
+    @RequestMapping("toUpdatePage")
+    public ModelAndView toUpdatePage() {
+        return new ModelAndView("/role/role-save");
     }
 }

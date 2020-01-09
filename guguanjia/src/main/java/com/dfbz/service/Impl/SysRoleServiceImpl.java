@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.management.relation.Role;
 import java.util.List;
 import java.util.Map;
 
@@ -52,6 +53,21 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole> implements SysR
     @Override
     public int insertBatch(long rid, List<Long> uids) {
         return sysRoleMapper.insertBatch(rid, uids);
+    }
+
+    @Override
+    public int update(Map<String, Object> params) {
+        int result = 0;
+        SysRole role = (SysRole) params.get("role");
+        result += sysRoleMapper.updateByPrimaryKeySelective(role);
+
+        Long[] resIds = (Long[]) params.get("resIds");
+        result += sysRoleMapper.deleteBatchRoleResource(role.getId());
+        if (resIds.length > 0) {
+            result += sysRoleMapper.insertBatchRoleResource(role.getId(), resIds);
+        }
+
+        return result;
     }
 
 

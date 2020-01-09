@@ -66,7 +66,14 @@ new Vue({
                 area: ["80%", "80%"],
                 title: "用户角色授权"
             })
-
+        },
+        toUpdate: function (r) {
+            layer.role = r;
+            layer.open({
+                type: 2,
+                content: "manager/role/toUpdatePage",
+                area: ["80%", "80%"],
+            })
         }
     },
     created: function () {

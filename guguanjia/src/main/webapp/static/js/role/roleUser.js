@@ -118,9 +118,10 @@ new Vue({
                 if (response.data.success) {
                     this.initYxUser();
                     this.showRemoveClass = 'hide';
+                    this.initDxUser();
                 }
                 layer.msg(response.data.msg)
-            }).catch( error=> {
+            }).catch(error => {
                 layer.msg(error.message);
             })
         },
@@ -164,17 +165,18 @@ new Vue({
                 url: 'manager/role/insertBatch',
                 params: {rid: this.roleId, uids: this.addUserIds + ''}
             }).then(response => {
-                //TODO
+                if (response.data.success) {
+                    //更新当前的用户未授权列表
+                    this.initDxUser();
+                    this.showAddClass = 'hide';//隐藏提交按钮
+                    this.initYxUser();//更新已分配角色列表
+                }
                 layer.msg(response.data.msg);
-                //更新当前的用户未授权列表
-                this.dxUsers();
-                this.showAddClass = 'hide';//隐藏提交按钮
-                this.yxUsers();//更新已分配角色列表
 
-            }).catch(function (error) {
-                layer.msg(error);
-            })
-        }
+            }).catch( error=> {
+    layer.msg(error.message);
+})
+}
 
 
     },

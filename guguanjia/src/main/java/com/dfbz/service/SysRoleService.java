@@ -21,4 +21,6 @@ public interface SysRoleService extends BaseService<SysRole> {
     int deleteBatch(Long rid, Long[] uids);
 
     int insertBatch(long rid, List<Long> uids);
+
+    int update(Map<String, Object> params);
 }

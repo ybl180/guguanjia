@@ -106,22 +106,27 @@ public class SysOfficeServiceImpl extends BaseServiceImpl<SysOffice> implements 
     }
 
     @Override
-    public int update(SysOffice sysOffice){
+    public int update(SysOffice sysOffice) {
         long[] wasteIds = null;
         int result = 0;
 
         mapper.updateByPrimaryKeySelective(sysOffice);
-        result+=1;
+        result += 1;
         sysOfficeMapper.deleteOfficeWaste(sysOffice.getId());
         result += 1;
-        if(sysOffice.getWastes().size()>0){
+        if (sysOffice.getWastes().size() > 0) {
             wasteIds = new long[sysOffice.getWastes().size()];
             for (int i = 0; i < sysOffice.getWastes().size(); i++) {
-                wasteIds[i]=sysOffice.getWastes().get(i).getId();
+                wasteIds[i] = sysOffice.getWastes().get(i).getId();
             }
-            sysOfficeMapper.insertBathOfficeWaste(sysOffice.getId(),wasteIds);
-            result +=1;
+            sysOfficeMapper.insertBathOfficeWaste(sysOffice.getId(), wasteIds);
+            result += 1;
         }
         return result;
+    }
+
+    @Override
+    public List<SysOffice> selectByRid(Long rid) {
+        return sysOfficeMapper.selectByRid(rid);
     }
 }

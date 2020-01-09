@@ -65,4 +65,25 @@ public class SysRoleProvider {
         sb.deleteCharAt(sb.length() - 1);
         return sb.toString();
     }
+
+    //批量删除sys_role_resource中的信息
+    public String deleteBatchRoleResource(@Param("rid") Long rid) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("delete " +
+                "from sys_role_resource  " +
+                "where " +
+                "role_id=#{rid}");
+        return sb.toString();
+    }
+
+    public String insertBatchRoleResource(@Param("rid") Long rid, @Param("resIds") Long[] resIds) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("INSERT INTO `guguanjia`.`sys_role_resource` ( `role_id`, `resource_id`, `create_by`, `create_date`," +
+                " `update_by`, `update_date`, `del_flag` ) VALUES ");
+        for (int i = 0; i < resIds.length; i++) {
+            sb.append(" ( #{rid}, #{resIds[" + i + "]}, NULL, now(), NULL, now(), '0' ),");
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        return sb.toString();
+    }
 }
