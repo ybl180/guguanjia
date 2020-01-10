@@ -25,12 +25,16 @@ public class TestSysRole {
     SysRoleService sysRoleService;
 
     @Test
-    public void page(){
+    public void page() {
         Map<String, Object> map = new HashMap<>();
         PageInfo<SysRole> pageInfo = sysRoleService.selectPage(map);
         System.out.println(pageInfo);
     }
 
+    @Test
+    public void delectRole() {
+        int i = sysRoleService.deleteRole(27L);
+    }
 
 
 }

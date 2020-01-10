@@ -76,14 +76,33 @@ public class SysRoleProvider {
         return sb.toString();
     }
 
-    public String insertBatchRoleResource(@Param("rid") Long rid, @Param("resIds") Long[] resIds) {
+    //批量插入sys_role_resource中的信息
+    public String insertBatchRoleResource(@Param("rid") Long rid, @Param("resIds") List<Long> resIds) {
         StringBuilder sb = new StringBuilder();
         sb.append("INSERT INTO `guguanjia`.`sys_role_resource` ( `role_id`, `resource_id`, `create_by`, `create_date`," +
                 " `update_by`, `update_date`, `del_flag` ) VALUES ");
-        for (int i = 0; i < resIds.length; i++) {
+        for (int i = 0; i < resIds.size(); i++) {
             sb.append(" ( #{rid}, #{resIds[" + i + "]}, NULL, now(), NULL, now(), '0' ),");
         }
         sb.deleteCharAt(sb.length() - 1);
         return sb.toString();
     }
+
+    //逻辑删除关联role的信息  中间表
+    public String deleteRelevanceRole(Long rid) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("update  " +
+                "sys_role_office sro,sys_role_resource srr,sys_user_role sur " +
+                "set " +
+                "sro.del_flag=1,srr.del_flag=1,sur.del_flag=1 " +
+                "where " +
+                "sro.role_id=#{rid} " +
+                "and " +
+                "srr.role_id=#{rid} " +
+                "and " +
+                "sur.role_id=#{rid}");
+        return sb.toString();
+    }
+
+
 }

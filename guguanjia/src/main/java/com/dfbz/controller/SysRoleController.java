@@ -5,15 +5,13 @@ import com.dfbz.entity.SysRole;
 import com.dfbz.service.SysRoleService;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author ybl
@@ -72,4 +70,35 @@ public class SysRoleController {
     public ModelAndView toUpdatePage() {
         return new ModelAndView("/role/role-save");
     }
+
+    @RequestMapping("doUpdate")
+    public Result doUpdate(@RequestBody Map<String, Object> params) {
+        Result result = new Result();
+        if (sysRoleService.update(params) > 0) {
+            result.setSuccess(true);
+            result.setMsg("更新成功");
+        }
+        return result;
+    }
+
+    @RequestMapping("deleteRole")
+    public Result deleteRole(Long rid) {
+        Result result = new Result();
+        if (sysRoleService.deleteRole(rid) > 0) {
+            result.setSuccess(true);
+            result.setMsg("删除成功");
+        }
+        return result;
+    }
+
+    @RequestMapping("toDetailPage")
+    public ModelAndView toDetailPage() {
+        return new ModelAndView("/role/role-detail");
+    }
+
+    @RequestMapping("roleSelectOffice")
+    public ModelAndView roleSelectOffice() {
+        return new ModelAndView("/role/role-select");
+    }
+
 }

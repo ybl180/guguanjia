@@ -88,4 +88,9 @@ public class SysOfficeController {
         return sysOfficeService.selectByRid(rid);
     }
 
+    @RequestMapping("selectByUid")
+    public SysOffice selectByUid(Long uid) {
+        return sysOfficeService.selectByUid(uid);
+    }
+
 }

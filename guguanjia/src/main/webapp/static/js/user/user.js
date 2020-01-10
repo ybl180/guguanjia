@@ -5,7 +5,8 @@ new Vue({
             params: {
                 userNo: '',
                 name: '',
-                officeId: ''
+                officeId: '',
+                roleIds: ''
             },
             nodes: [],
             treeObj: '',
@@ -26,13 +27,15 @@ new Vue({
                     fontCss: this.fontCss,
                 }
             },
-            Roles: []
+            Roles: [],
+            paramsRoles: []
 
         }
 
     },
     methods: {
         selectAll: function (pageNum, pageSize) {
+            this.params.roleIds = this.paramsRoles;
             this.params.pageNum = pageNum;
             this.params.pageSize = pageSize;
             axios({
@@ -96,19 +99,41 @@ new Vue({
                 url: "manager/sysuser/selectRole"
             }).then(response => {
                 this.Roles = response.data;
+                for (let i = 0; i < this.Roles.length; i++) {
+                    this.Roles[i].show = false;//查询条件中不存在
+                }
             }).catch(error => {
                 layer.msg(error.message)
             })
         },
-        addRolesCondition:function (e,param) {
+        addRolesCondition: function (e, param) {
             //TODO
-            for (let i = 0; i <this.Roles.length ; i++) {
-
-            }
-
+            // for (let i = 0; i < this.Roles.length; i++) {
+            //     if (this.Roles[i].id == param.selected) {
+            //         this.Roles[i].show = !this.Roles[i].show;
+            //         if (this.Roles[i].show) {//条件中存在
+            //             this.paramsRoles.push(param.selected);
+            //         } else {
+            //             for (let j = 0; j < this.paramsRoles.length; j++) {
+            //                 if (this.paramsRoles[j] == param.selected) {
+            //                     this.paramsRoles.splice(j)
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
             console.log(param)
-            console.log(e)
-        }
+            console.log(this.paramsRoles)
+        },
+        detailUser: function (user) {
+            layer.user = user;
+            layer.open({
+                type: 2,
+                content: "manager/sysuser/detail",
+                area: ["80%", "80%"],
+                title: "用户详情"
+            })
+        },
 
     },
     created: function () {
@@ -122,7 +147,8 @@ new Vue({
 
         $("#role-choose").chosen({width: "100%", search_contains: true});
     },
-    updated:function(){
+    updated: function () {
         $("#role-select").trigger("chosen:updated")
+
     }
 })

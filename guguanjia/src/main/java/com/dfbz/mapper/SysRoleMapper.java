@@ -38,5 +38,13 @@ public interface SysRoleMapper extends Mapper<SysRole> {
 
     //批量添加sys_role_resource中的信息
     @InsertProvider(type = SysRoleProvider.class, method = "insertBatchRoleResource")
-    int insertBatchRoleResource(@Param("rid") Long rid, @Param("resIds") Long[] resIds);
+    int insertBatchRoleResource(@Param("rid") Long rid, @Param("resIds") List<Long> resIds);
+
+    //逻辑删除角色，del_flag=1
+    @Update("update sys_role set del_flag=1 where id=#{rid}")
+    int deleteRole(Long rid);
+
+    //逻辑删除关联角色的信息
+    @UpdateProvider(type = SysRoleProvider.class, method = "deleteRelevanceRole")
+    int deleteRelevanceRole(Long rid);
 }

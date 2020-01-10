@@ -56,4 +56,8 @@ public class SysUserController {
         return sysUserService.selectNoRole(rid, oid);
     }
 
+    @RequestMapping("detail")
+    public ModelAndView detail() {
+        return new ModelAndView("/user/user-detail");
+    }
 }

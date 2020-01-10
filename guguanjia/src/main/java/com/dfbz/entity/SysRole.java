@@ -1,13 +1,17 @@
 package com.dfbz.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import java.io.Serializable;
 import java.util.Date;
 
 @Table(name = "sys_role")
-public class SysRole {
+public class SysRole implements Serializable {
+
     /**
      * 编号
      */
@@ -41,6 +45,7 @@ public class SysRole {
      * 创建时间
      */
     @Column(name = "create_date")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:dd")
     private Date createDate;
 
     /**
@@ -53,6 +58,7 @@ public class SysRole {
      * 更新时间
      */
     @Column(name = "update_date")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:dd")
     private Date updateDate;
 
     /**
@@ -255,5 +261,22 @@ public class SysRole {
      */
     public void setDelFlag(String delFlag) {
         this.delFlag = delFlag == null ? null : delFlag.trim();
+    }
+
+    @Override
+    public String toString() {
+        return "SysRole{" +
+                "id=" + id +
+                ", officeId=" + officeId +
+                ", name='" + name + '\'' +
+                ", dataScope='" + dataScope + '\'' +
+                ", createBy='" + createBy + '\'' +
+                ", createDate=" + createDate +
+                ", updateBy='" + updateBy + '\'' +
+                ", updateDate=" + updateDate +
+                ", remarks='" + remarks + '\'' +
+                ", delFlag='" + delFlag + '\'' +
+                ", officeName='" + officeName + '\'' +
+                '}';
     }
 }

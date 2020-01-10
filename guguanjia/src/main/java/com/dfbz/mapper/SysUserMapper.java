@@ -30,7 +30,7 @@ public interface SysUserMapper extends Mapper<SysUser> {
 
 
     //根据角色id查询用户信息
-    @Select("select su.*  " +
+    @Select("select su.*,sr.name roleName  " +
             "from " +
             "sys_role sr,sys_user_role sur,sys_user su " +
             "where " +

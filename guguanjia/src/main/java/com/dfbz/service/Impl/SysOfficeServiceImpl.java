@@ -129,4 +129,9 @@ public class SysOfficeServiceImpl extends BaseServiceImpl<SysOffice> implements 
     public List<SysOffice> selectByRid(Long rid) {
         return sysOfficeMapper.selectByRid(rid);
     }
+
+    @Override
+    public SysOffice selectByUid(Long uid) {
+        return sysOfficeMapper.selectByUid(uid);
+    }
 }

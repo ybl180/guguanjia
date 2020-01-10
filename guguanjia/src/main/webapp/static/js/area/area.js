@@ -22,9 +22,9 @@ new Vue({
                 edit: {
                     enable: true
                 },
-                view:{//自定义节点上的元素
-                    addHoverDom:this.addHoverDom,
-                    removeHoverDom:this.removeHoverDom
+                view: {//自定义节点上的元素
+                    addHoverDom: this.addHoverDom,
+                    removeHoverDom: this.removeHoverDom
                 }
 
             },
@@ -78,6 +78,11 @@ new Vue({
                 url: "manager/area/selectAll"
             }).then(response => {
                 this.nodes = response.data;
+                for (let i = 0; i < this.nodes.length; i++) {
+                    if (this.nodes[i].id == 1) {//'中国'树节点展开
+                        this.nodes[i].open = true;
+                    }
+                }
                 this.treeObj = $.fn.zTree.init($("#treeMenu"), this.setting, this.nodes)
             }).catch(error => layer.msg(error.message))
         },
@@ -113,21 +118,33 @@ new Vue({
             this.toUpdate(treeNode.id);
             return false;//阻止进入修改节点状态
         },
-        addHoverDom:function () {
-            var aObj = $("#" + treeNode.tId + "_a");
-            if ($("#diyBtn_"+treeNode.id).length>0) return;
-            var editStr = "<span id='diyBtn_space_" +treeNode.id+ "' > </span>"
-                + "<button type='button' class='diyBtn1' id='diyBtn_" + treeNode.id
-                + "' title='"+treeNode.name+"' onfocus='this.blur();'></button>";
+        // addHoverDom: function (treeId, treeNode) {
+        //     var aObj = $("#" + treeNode.tId + "_a");
+        //     if ($("#diyBtn_" + treeNode.id).length > 0) return;
+        //     var editStr = "<span id='diyBtn_space_" + treeNode.id + "' > </span>"
+        //         + "<button type='button' class='diyBtn_' id='diyBtn_" + treeNode.id
+        //         + "' title='" + treeNode.name + "' onfocus='this.blur();'></button>";
+        //     aObj.append(editStr);
+        //     var btn = $("#diyBtn_" + treeNode.id);
+        //     if (btn) btn.bind("click", function () {
+        //         alert("diy Button for " + treeNode.name);
+        //     });
+        // },
+        addHoverDom:function (treeId,treeNode) {
+            let aObj = $("#" + treeNode.tId + "_a");
+            if ($("#treeMenu_"+treeNode.id+"_add").length>0) return;
+            //<span class="button edit" id="treeMenu_3_edit" title="rename" treenode_edit="" style=""></span>
+            let editStr = `<span class="button add" id="treeMenu_${treeNode.id}_add" title="add" style=""></span>`;
             aObj.append(editStr);
-            var btn = $("#diyBtn_"+treeNode.id);
-            if (btn) btn.bind("click", function(){alert("diy Button for " + treeNode.name);});
+            let span = $("#treeMenu_"+treeNode.id+"_add");
+            if (span) span.bind("click", function(){alert("diy Button for " + treeNode.name);});
         },
-        removeHoverDom:function () {
-            $("#diyBtn_"+treeNode.id).unbind().remove();
-            $("#diyBtn_space_" +treeNode.id).unbind().remove();
+        removeHoverDom: function (treeId, treeNode) {
+            // $("#diyBtn_" + treeNode.id).unbind().remove();
+            // $("#diyBtn_space_" + treeNode.id).unbind().remove();
+            $("#treeMenu_"+treeNode.id+"_add").unbind().remove();
         }
-        
+
 
     },
     created: function () {

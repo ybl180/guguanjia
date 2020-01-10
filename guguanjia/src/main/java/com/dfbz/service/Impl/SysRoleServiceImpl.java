@@ -1,16 +1,19 @@
 package com.dfbz.service.Impl;
 
+import com.alibaba.druid.support.json.JSONUtils;
 import com.alibaba.excel.util.StringUtils;
+import com.dfbz.entity.SysResource;
 import com.dfbz.entity.SysRole;
 import com.dfbz.mapper.SysRoleMapper;
 import com.dfbz.service.SysRoleService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.management.relation.Role;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +32,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole> implements SysR
 
     @Override
     public List<SysRole> selectAllRole() {
-        return sysRoleMapper.selectAllRole();
+        return sysRoleMapper.selectAll();
     }
 
     @Override
@@ -58,15 +61,29 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole> implements SysR
     @Override
     public int update(Map<String, Object> params) {
         int result = 0;
-        SysRole role = (SysRole) params.get("role");
-        result += sysRoleMapper.updateByPrimaryKeySelective(role);
+        if (params.containsKey("role") && !StringUtils.isEmpty(params.get("role"))) {
 
-        Long[] resIds = (Long[]) params.get("resIds");
-        result += sysRoleMapper.deleteBatchRoleResource(role.getId());
-        if (resIds.length > 0) {
-            result += sysRoleMapper.insertBatchRoleResource(role.getId(), resIds);
+            //将LinkedHashMap转换成javaObject
+            ObjectMapper objectMapper = new ObjectMapper();
+            SysRole role = objectMapper.convertValue(params.get("role"), SysRole.class);
+
+            result += sysRoleMapper.updateByPrimaryKeySelective(role);
+
+            List<Long> resIds = objectMapper.convertValue(params.get("resIds"), List.class);
+            result += sysRoleMapper.deleteBatchRoleResource(role.getId());
+            if (resIds.size() > 0) {
+                result += sysRoleMapper.insertBatchRoleResource(role.getId(), resIds);
+            }
         }
+        return result;
+    }
 
+    //逻辑删除角色
+    @Override
+    public int deleteRole(Long rid) {
+        int result = 0;
+        result += sysRoleMapper.deleteRole(rid);
+        sysRoleMapper.deleteRelevanceRole(rid);
         return result;
     }
 

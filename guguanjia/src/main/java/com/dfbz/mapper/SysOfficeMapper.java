@@ -43,4 +43,16 @@ public interface SysOfficeMapper extends Mapper<SysOffice> {
             "and " +
             "sro.role_id=#{rid}")
     List<SysOffice> selectByRid(Long rid);
+
+
+    @Select("select so.*  " +
+            "from " +
+            "sys_office so " +
+            "left join  " +
+            "sys_user su " +
+            "on  " +
+            "su.office_id=so.id " +
+            "where " +
+            "su.id=#{uid}")
+    SysOffice selectByUid(Long uid);
 }

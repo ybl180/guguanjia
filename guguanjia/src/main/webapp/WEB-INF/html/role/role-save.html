@@ -61,12 +61,13 @@
 
                                                 <div class="clearfix width-100  input-group" style="">
                                                     <input class="form-control search-query" type="text" readonly=""
-                                                           id="officeNameEdit" name="" v-model="role.officeName" datatype="*"
+                                                           id="officeNameEdit" name="" v-model="role.officeName"
+                                                           datatype="*"
                                                            nullmsg="请选择归属机构">
                                                     <span class="input-group-btn">
-		<span class="btn btn-purple btn-sm" type="button" style="height: 34px;" >
+		<span class="btn btn-purple btn-sm" type="button" style="height: 34px;" @click.prevent="changeOffice()">
 			<i class="ace-icon fa fa-search bigger-110"></i>
-			<a href="role-select.html">查找</a>
+			<a href="" >查找</a>
 		</span>
 	</span>
                                                     <input type="hidden" name="officeId" id="officeEdit" value="52">
@@ -137,10 +138,10 @@
 
                             <div class="width-100 clearfix" tag-save-btn=""
                                  style="bottom: -36px; left: 0px; position: absolute;">
-	<span class="btn btn-primary btn-sm bigger-110 width-50  pull-left" id="role-save-save">
+	<span class="btn btn-primary btn-sm bigger-110 width-50  pull-left" id="role-save-save" @click="doUpdate">
 		<i class="ace-icon fa fa-floppy-o align-top bigger-125"></i> 确 定
 	</span>
-                                <span class="btn btn-yellow btn-sm bigger-110 width-50 pull-right"
+                                <span class="btn btn-yellow btn-sm bigger-110 width-50 pull-right" @click="closeWindow"
                                       id="role-save-cancel">
 		<i class="ace-icon fa fa-times align-top  bigger-125"></i> 取 消
 	</span>
@@ -169,21 +170,21 @@
 <script src="static/ace/js/ace.min.js"></script>
 
 <!--<script>-->
-    <!--$(function () {-->
-        <!--$("#chosenSelectEdit").chosen({width: "40%", search_contains: true});-->
-    <!--});-->
+<!--$(function () {-->
+<!--$("#chosenSelectEdit").chosen({width: "40%", search_contains: true});-->
+<!--});-->
 <!--</script>-->
 <!--<script type="text/javascript">-->
-    <!--$("#chosenSelectEdit").change(function () {-->
-        <!--if ($(this).val() == 9) {-->
-            <!--$("#treeSelectOfficeEdit").show();-->
-        <!--} else {-->
-            <!--$("#treeSelectOfficeEdit").hide();-->
-        <!--}-->
-    <!--})-->
-    <!--$("#chosenSelectEdit option[value='8']").attr("selected", true);-->
-    <!--$("#chosenSelectEdit option[value='8']").trigger('change');-->
-    <!--$("#chosenSelectEdit").trigger("chosen:updated");-->
+<!--$("#chosenSelectEdit").change(function () {-->
+<!--if ($(this).val() == 9) {-->
+<!--$("#treeSelectOfficeEdit").show();-->
+<!--} else {-->
+<!--$("#treeSelectOfficeEdit").hide();-->
+<!--}-->
+<!--})-->
+<!--$("#chosenSelectEdit option[value='8']").attr("selected", true);-->
+<!--$("#chosenSelectEdit option[value='8']").trigger('change');-->
+<!--$("#chosenSelectEdit").trigger("chosen:updated");-->
 <!--</script>-->
 
 

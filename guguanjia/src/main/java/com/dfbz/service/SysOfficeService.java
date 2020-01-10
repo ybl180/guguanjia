@@ -22,4 +22,6 @@ public interface SysOfficeService extends BaseService<SysOffice> {
     int update(SysOffice sysOffice);
 
     List<SysOffice> selectByRid(Long rid);
+
+    SysOffice selectByUid(Long uid);
 }

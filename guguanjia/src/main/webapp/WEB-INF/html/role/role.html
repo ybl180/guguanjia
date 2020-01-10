@@ -253,7 +253,7 @@
 											<tbody>
 											<tr v-for="role in pageInfo.list">
 												<td class="center">
-													<a href="role-detail.html">{{role.name}}</a>
+													<a href="role-detail.html" @click.prevent="detail(role)">{{role.name}}</a>
 												</td>
 												<td class="center">
 													&nbsp;({{role.officeName}})
@@ -276,7 +276,7 @@
 															<i class="ace-icon fa fa-pencil bigger-130"></i> 编辑
 														</a>
 
-														<a class="red" @click="deleteById(role.id)">
+														<a class="red" href="" @click.prevent="deleteById(role.id)">
 															<i class="ace-icon fa fa-trash-o bigger-130"></i> 删除
 														</a>
 													</div>
@@ -387,145 +387,6 @@
 													<div>
 														<ul id="select-treetreeSelectRes" class="ztree"
 															style="padding:15px 20px;">
-															<li id="select-treetreeSelectRes_1" class="level0"
-																tabindex="0" hidefocus="true" treenode=""><span
-																	id="select-treetreeSelectRes_1_switch" title=""
-																	class="button level0 switch root_open"
-																	treenode_switch=""></span><span
-																	id="select-treetreeSelectRes_1_check"
-																	class="button chk checkbox_true_part"
-																	treenode_check=""></span><a
-																	id="select-treetreeSelectRes_1_a" class="level0"
-																	treenode_a="" onclick="" target="_blank"
-																	style="font-weight:normal;color:#333;" title="权限列表"><span
-																	id="select-treetreeSelectRes_1_ico" title=""
-																	treenode_ico="" class="button ico_open"
-																	style=""></span><span
-																	id="select-treetreeSelectRes_1_span">权限列表</span></a>
-																<ul id="select-treetreeSelectRes_1_ul" class="level0 "
-																	style="display:block">
-																	<li id="select-treetreeSelectRes_2" class="level1"
-																		tabindex="0" hidefocus="true" treenode=""><span
-																			id="select-treetreeSelectRes_2_switch"
-																			title=""
-																			class="button level1 switch center_close"
-																			treenode_switch=""></span><span
-																			id="select-treetreeSelectRes_2_check"
-																			class="button chk checkbox_false_full"
-																			treenode_check=""></span><a
-																			id="select-treetreeSelectRes_2_a"
-																			class="level1" treenode_a="" onclick=""
-																			target="_blank"
-																			style="font-weight:normal;color:#333;"
-																			title="个人中心"><span
-																			id="select-treetreeSelectRes_2_ico" title=""
-																			treenode_ico=""
-																			class="button cusicon ace-icon ico fa fa-user"
-																			style=""></span><span
-																			id="select-treetreeSelectRes_2_span">个人中心</span></a>
-																	</li>
-																	<li id="select-treetreeSelectRes_4" class="level1"
-																		tabindex="0" hidefocus="true" treenode=""><span
-																			id="select-treetreeSelectRes_4_switch"
-																			title=""
-																			class="button level1 switch center_close"
-																			treenode_switch=""></span><span
-																			id="select-treetreeSelectRes_4_check"
-																			class="button chk checkbox_false_full"
-																			treenode_check=""></span><a
-																			id="select-treetreeSelectRes_4_a"
-																			class="level1" treenode_a="" onclick=""
-																			target="_blank"
-																			style="font-weight:normal;color:#333;"
-																			title="单位管理"><span
-																			id="select-treetreeSelectRes_4_ico" title=""
-																			treenode_ico=""
-																			class="button cusicon ace-icon ico fa fa-lastfm"
-																			style=""></span><span
-																			id="select-treetreeSelectRes_4_span">单位管理</span></a>
-																	</li>
-																	<li id="select-treetreeSelectRes_8" class="level1"
-																		tabindex="0" hidefocus="true" treenode=""><span
-																			id="select-treetreeSelectRes_8_switch"
-																			title=""
-																			class="button level1 switch center_close"
-																			treenode_switch=""></span><span
-																			id="select-treetreeSelectRes_8_check"
-																			class="button chk checkbox_false_full"
-																			treenode_check=""></span><a
-																			id="select-treetreeSelectRes_8_a"
-																			class="level1" treenode_a="" onclick=""
-																			target="_blank"
-																			style="font-weight:normal;color:#333;"
-																			title="业务管理"><span
-																			id="select-treetreeSelectRes_8_ico" title=""
-																			treenode_ico=""
-																			class="button cusicon ace-icon ico fa fa-puzzle-piece"
-																			style=""></span><span
-																			id="select-treetreeSelectRes_8_span">业务管理</span></a>
-																	</li>
-																	<li id="select-treetreeSelectRes_15" class="level1"
-																		tabindex="0" hidefocus="true" treenode=""><span
-																			id="select-treetreeSelectRes_15_switch"
-																			title=""
-																			class="button level1 switch center_close"
-																			treenode_switch=""></span><span
-																			id="select-treetreeSelectRes_15_check"
-																			class="button chk checkbox_false_full"
-																			treenode_check=""></span><a
-																			id="select-treetreeSelectRes_15_a"
-																			class="level1" treenode_a="" onclick=""
-																			target="_blank"
-																			style="font-weight:normal;color:#333;"
-																			title="机构用户"><span
-																			id="select-treetreeSelectRes_15_ico"
-																			title="" treenode_ico=""
-																			class="button cusicon ace-icon ico fa fa-group"
-																			style=""></span><span
-																			id="select-treetreeSelectRes_15_span">机构用户</span></a>
-																	</li>
-																	<li id="select-treetreeSelectRes_21" class="level1"
-																		tabindex="0" hidefocus="true" treenode=""><span
-																			id="select-treetreeSelectRes_21_switch"
-																			title=""
-																			class="button level1 switch center_close"
-																			treenode_switch=""></span><span
-																			id="select-treetreeSelectRes_21_check"
-																			class="button chk checkbox_false_full"
-																			treenode_check=""></span><a
-																			id="select-treetreeSelectRes_21_a"
-																			class="level1" treenode_a="" onclick=""
-																			target="_blank"
-																			style="font-weight:normal;color:#333;"
-																			title="系统管理"><span
-																			id="select-treetreeSelectRes_21_ico"
-																			title="" treenode_ico=""
-																			class="button cusicon ace-icon ico fa fa-cogs"
-																			style=""></span><span
-																			id="select-treetreeSelectRes_21_span">系统管理</span></a>
-																	</li>
-																	<li id="select-treetreeSelectRes_25" class="level1"
-																		tabindex="0" hidefocus="true" treenode=""><span
-																			id="select-treetreeSelectRes_25_switch"
-																			title=""
-																			class="button level1 switch bottom_close"
-																			treenode_switch=""></span><span
-																			id="select-treetreeSelectRes_25_check"
-																			class="button chk checkbox_false_full"
-																			treenode_check=""></span><a
-																			id="select-treetreeSelectRes_25_a"
-																			class="level1" treenode_a="" onclick=""
-																			target="_blank"
-																			style="font-weight:normal;color:#333;"
-																			title="系统监控"><span
-																			id="select-treetreeSelectRes_25_ico"
-																			title="" treenode_ico=""
-																			class="button cusicon ace-icon ico fa fa-binoculars"
-																			style=""></span><span
-																			id="select-treetreeSelectRes_25_span">系统监控</span></a>
-																	</li>
-																</ul>
-															</li>
 														</ul>
 													</div>
 													</div>
@@ -536,89 +397,6 @@
 													<div>
 														<ul id="select-treetreeSelectOffice" class="ztree"
 															style="padding:15px 20px;">
-															<li id="select-treetreeSelectOffice_1" class="level0"
-																tabindex="0" hidefocus="true" treenode=""><span
-																	id="select-treetreeSelectOffice_1_switch" title=""
-																	class="button level0 switch root_open"
-																	treenode_switch=""></span><span
-																	id="select-treetreeSelectOffice_1_check"
-																	class="button chk checkbox_true_part"
-																	treenode_check=""></span><a
-																	id="select-treetreeSelectOffice_1_a" class="level0"
-																	treenode_a="" onclick="" target="_blank"
-																	style="font-weight:normal;color:#333;" title="机构列表"><span
-																	id="select-treetreeSelectOffice_1_ico" title=""
-																	treenode_ico="" class="button ico_open"
-																	style=""></span><span
-																	id="select-treetreeSelectOffice_1_span">机构列表</span></a>
-																<ul id="select-treetreeSelectOffice_1_ul"
-																	class="level0 " style="display:block">
-																	<li id="select-treetreeSelectOffice_2"
-																		class="level1" tabindex="0" hidefocus="true"
-																		treenode=""><span
-																			id="select-treetreeSelectOffice_2_switch"
-																			title=""
-																			class="button level1 switch center_docu"
-																			treenode_switch=""></span><span
-																			id="select-treetreeSelectOffice_2_check"
-																			class="button chk checkbox_false_full"
-																			treenode_check=""></span><a
-																			id="select-treetreeSelectOffice_2_a"
-																			class="level1" treenode_a="" onclick=""
-																			target="_blank"
-																			style="font-weight:normal;color:#333;"
-																			title="新注册用户默认机构"><span
-																			id="select-treetreeSelectOffice_2_ico"
-																			title="" treenode_ico=""
-																			class="button ico_docu"
-																			style=""></span><span
-																			id="select-treetreeSelectOffice_2_span">新注册用户默认机构</span></a>
-																	</li>
-																	<li id="select-treetreeSelectOffice_3"
-																		class="level1" tabindex="0" hidefocus="true"
-																		treenode=""><span
-																			id="select-treetreeSelectOffice_3_switch"
-																			title=""
-																			class="button level1 switch center_docu"
-																			treenode_switch=""></span><span
-																			id="select-treetreeSelectOffice_3_check"
-																			class="button chk checkbox_false_full"
-																			treenode_check=""></span><a
-																			id="select-treetreeSelectOffice_3_a"
-																			class="level1" treenode_a="" onclick=""
-																			target="_blank"
-																			style="font-weight:normal;color:#333;"
-																			title="重庆天志环保有限公司（长寿处置场）"><span
-																			id="select-treetreeSelectOffice_3_ico"
-																			title="" treenode_ico=""
-																			class="button ico_docu"
-																			style=""></span><span
-																			id="select-treetreeSelectOffice_3_span">重庆天志环保有限公司（长寿处置场）</span></a>
-																	</li>
-																	<li id="select-treetreeSelectOffice_4"
-																		class="level1" tabindex="0" hidefocus="true"
-																		treenode=""><span
-																			id="select-treetreeSelectOffice_4_switch"
-																			title=""
-																			class="button level1 switch center_docu"
-																			treenode_switch=""></span><span
-																			id="select-treetreeSelectOffice_4_check"
-																			class="button chk checkbox_false_full"
-																			treenode_check=""></span><a
-																			id="select-treetreeSelectOffice_4_a"
-																			class="level1" treenode_a="" onclick=""
-																			target="_blank"
-																			style="font-weight:normal;color:#333;"
-																			title="重庆天志环保有限公司（主城区处置场）"><span
-																			id="select-treetreeSelectOffice_4_ico"
-																			title="" treenode_ico=""
-																			class="button ico_docu"
-																			style=""></span><span
-																			id="select-treetreeSelectOffice_4_span">重庆天志环保有限公司（主城区处置场）</span></a>
-																	</li>
-
-																</ul>
-															</li>
 														</ul>
 													</div>
 													</div>

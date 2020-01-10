@@ -119,6 +119,7 @@ new Vue({
                     this.initYxUser();
                     this.showRemoveClass = 'hide';
                     this.initDxUser();
+                    this.removeUserIds = [];
                 }
                 layer.msg(response.data.msg)
             }).catch(error => {
@@ -170,13 +171,14 @@ new Vue({
                     this.initDxUser();
                     this.showAddClass = 'hide';//隐藏提交按钮
                     this.initYxUser();//更新已分配角色列表
+                    this.addUserIds = [];
                 }
                 layer.msg(response.data.msg);
 
-            }).catch( error=> {
-    layer.msg(error.message);
-})
-}
+            }).catch(error => {
+                layer.msg(error.message);
+            })
+        }
 
 
     },
