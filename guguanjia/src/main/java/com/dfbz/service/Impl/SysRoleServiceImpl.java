@@ -66,13 +66,21 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole> implements SysR
             //将LinkedHashMap转换成javaObject
             ObjectMapper objectMapper = new ObjectMapper();
             SysRole role = objectMapper.convertValue(params.get("role"), SysRole.class);
-
+            //更新SysRole数据库表数据
             result += sysRoleMapper.updateByPrimaryKeySelective(role);
 
             List<Long> resIds = objectMapper.convertValue(params.get("resIds"), List.class);
+            //更新sys_role_resource中间表数据，先批量删，再批量添加
             result += sysRoleMapper.deleteBatchRoleResource(role.getId());
             if (resIds.size() > 0) {
                 result += sysRoleMapper.insertBatchRoleResource(role.getId(), resIds);
+            }
+
+            //更新sys_role_office中间表数据
+            List<Long> officeIds = objectMapper.convertValue(params.get("officeIds"), List.class);
+            result += sysRoleMapper.deleteBatchRoleOffice(role.getId());
+            if (officeIds.size() > 0) {
+                result += sysRoleMapper.insertBatchRoleOffice(role.getId(), officeIds);
             }
         }
         return result;
@@ -83,7 +91,30 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole> implements SysR
     public int deleteRole(Long rid) {
         int result = 0;
         result += sysRoleMapper.deleteRole(rid);
-        sysRoleMapper.deleteRelevanceRole(rid);
+        //删除关联表数据
+        sysRoleMapper.deleteRelevanceRoleOffice(rid);
+        sysRoleMapper.deleteRelevanceRoleResource(rid);
+        sysRoleMapper.RdeleteRelevanceRoleUser(rid);
+        return result;
+    }
+
+    @Override
+    public int saveRole(Map<String, Object> params) {
+        int result = 0;
+        ObjectMapper objectMapper = new ObjectMapper();
+        SysRole role = objectMapper.convertValue(params.get("role"), SysRole.class);
+        result += sysRoleMapper.saveRole(role);
+
+        //授权资源,插入sys_role_resource
+        List<Long> resIds = objectMapper.convertValue(params.get("resIds"), List.class);
+        if (resIds.size() > 0) {
+            sysRoleMapper.insertBatchRoleResource(role.getId(), resIds);
+        }
+        //授权公司,插入sys_role_office
+        List<Long> officeIds = objectMapper.convertValue(params.get("officeIds"), List.class);
+        if (officeIds.size() > 0) {
+            sysRoleMapper.insertBatchRoleOffice(role.getId(), officeIds);
+        }
         return result;
     }
 

@@ -1,8 +1,10 @@
 package com.dfbz.mapper;
 
+import com.dfbz.entity.SysRole;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.util.StringUtils;
 
+import javax.management.relation.Role;
 import java.util.List;
 import java.util.Map;
 
@@ -88,19 +90,35 @@ public class SysRoleProvider {
         return sb.toString();
     }
 
-    //逻辑删除关联role的信息  中间表
-    public String deleteRelevanceRole(Long rid) {
+    //批量删除sys_role_office中的信息
+    public String deleteBatchRoleOffice(@Param("rid") Long rid) {
         StringBuilder sb = new StringBuilder();
-        sb.append("update  " +
-                "sys_role_office sro,sys_role_resource srr,sys_user_role sur " +
-                "set " +
-                "sro.del_flag=1,srr.del_flag=1,sur.del_flag=1 " +
+        sb.append("delete " +
+                "from sys_role_office  " +
                 "where " +
-                "sro.role_id=#{rid} " +
-                "and " +
-                "srr.role_id=#{rid} " +
-                "and " +
-                "sur.role_id=#{rid}");
+                "role_id=#{rid}");
+        return sb.toString();
+    }
+
+    //批量插入sys_role_office中的信息
+    public String insertBatchRoleOffice(@Param("rid") Long rid, @Param("officeIds") List<Long> officeIds) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("INSERT INTO `guguanjia`.`sys_role_office`(`role_id`, `office_id`, `create_by`, `create_date`, " +
+                "`update_by`, `update_date`, `del_flag`) VALUES ");
+        for (int i = 1; i < officeIds.size(); i++) {
+            //officeId=0 数据库不存在会报错
+            sb.append(" ( #{rid}, #{officeIds[" + i + "]}, NULL, now(), NULL, now(), '0' ),");
+        }
+        sb.deleteCharAt(sb.length() - 1);
+        return sb.toString();
+    }
+
+
+    public String saveRole(@Param("role") SysRole role) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("INSERT INTO `guguanjia`.`sys_role`(`id`, `office_id`, `name`, `data_scope`, `create_by`, `create_date`, " +
+                "`update_by`, `update_date`, `remarks`, `del_flag`) VALUES " +
+                "(#{role.id}, #{role.officeId}, #{role.name}, #{role.dataScope}, '2,超级管理员', now(), NULL, now(), NULL, '0')");
         return sb.toString();
     }
 

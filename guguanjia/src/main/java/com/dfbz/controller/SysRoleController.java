@@ -101,4 +101,14 @@ public class SysRoleController {
         return new ModelAndView("/role/role-select");
     }
 
+    @RequestMapping("saveRole")
+    public Result saveRole(@RequestBody Map<String, Object> params) {
+        Result result = new Result();
+        if (sysRoleService.saveRole(params) > 0) {
+            result.setSuccess(true);
+            result.setMsg("添加成功");
+        }
+        return result;
+    }
+
 }

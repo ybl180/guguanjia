@@ -338,13 +338,10 @@
 													<div class="clearfix width-50 input-group" style="">
 														<input class="form-control search-query" type="text" readonly
 															   id="treeselectname" name="" value=""
-															   datatype="*"  nullmsg=请选择归属机构
+															   datatype="*"  nullmsg=请选择归属机构 v-model="addRole.officeName"
 														>
 														<span class="input-group-btn">
-		<span class="btn btn-purple btn-sm" type="button" style="height: 34px;"
-			  data-mode="page" data-url="/guguanjia/manager/tag/treeselect"
-			  data-data="{url:'/guguanjia/manager/office/tree',id:'treeselectid',nameId:'treeselectname',pIdKey:'parentId',selectIds:'',curId:'-1',checked:'false',rootNodeName:'',isLayer:'true'}"
-			  data-title="请选择" data-width="350px" data-height="400px">
+		<span class="btn btn-purple btn-sm" type="button" style="height: 34px;" @click="selectOffice">
 			<i class="ace-icon fa fa-search bigger-110"></i>查找
 		</span>
 	</span>
@@ -356,14 +353,13 @@
 											<tr class="FormData">
 												<td class="CaptionTD">角色名称：</td>
 												<td class="DataTD">
-													<input type="text" class="" name="name" datatype="*"  nullmsg="请输入角色名称！"/>
+													<input type="text" class="" name="name" datatype="*" v-model="addRole.role.name"  nullmsg="请输入角色名称！"/>
 												</td>
 											</tr>
 											<tr class="FormData">
 												<td class="CaptionTD">数据范围：</td>
 												<td class="DataTD width-100">
-
-													<select class="chosen-select " name="dataScope" id="saveUserDataScope">
+													<select class="chosen-select " name="dataScope" id="saveUserDataScope" v-model="addRole.role.dataScope" >
 														<option value="1">所有数据</option>
 														<option value="2">所在公司及以下数据</option>
 														<option value="3">所在公司数据</option>
@@ -382,7 +378,6 @@
 												<td class="DataTD">
 
 													<div id="treeSelectRes" style="width: 40%;display: inline-block;vertical-align: top;float: left">
-
 
 													<div>
 														<ul id="select-treetreeSelectRes" class="ztree"
@@ -406,7 +401,7 @@
 											</tbody>
 										</table>
 										<div class="margin-t15">
-											<span class="btn btn-info btn-block bigger-120" id="role-save-btn">保 存</span>
+											<span class="btn btn-info btn-block bigger-120" id="role-save-btn" @click="saveRole">保 存</span>
 										</div>
 									</form>
 								</div>
@@ -468,17 +463,6 @@
 	try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
 	try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
 
-	$(function(){
-		$("#saveUserDataScope").change(function(){
-			if($(this).val() == 9){
-				$("#treeSelectOffice").show();
-			}else{
-				$("#treeSelectOffice").hide();
-			}
-		})
-		$("#saveUserDataScope option[value='9']").attr("selected",true);
-		$("#saveUserDataScope").trigger("chosen:updated");
-	});
 </script>
 
 <!-- 引入其他js -->

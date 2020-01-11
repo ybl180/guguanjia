@@ -30,8 +30,9 @@ new Vue({
                 offices: [],
 
                 params: {
-                    resIds: [],
-                    role: {}
+                    role: {},
+                    resIds: [], //对应sys_role_resource中间表数据res_id
+                    officeIds:[] //对应sys_role_office表office_id
                 }
             }
 
@@ -87,6 +88,8 @@ new Vue({
                         }
                     }
                     this.treeObj = $.fn.zTree.init($("#select-treetreeSelectResEdit"), this.setting, this.nodes);
+
+                    //获取菜单树下选中的资源id
                     let checkedNodes = this.treeObj.getCheckedNodes(true);
                     for (let i = 0; i < checkedNodes.length; i++) {
                         this.params.resIds.push(checkedNodes[i].id);
@@ -121,6 +124,12 @@ new Vue({
                         }
                     }
                     this.officeTreeObj = $.fn.zTree.init($("#select-treetreeSelectOfficeEdit"), this.setting, this.officeNodes);
+
+                    //获取office树下选中的公司id
+                    let checkedOfficeNodes = this.officeTreeObj.getCheckedNodes(true);
+                    for (let i = 0; i < checkedOfficeNodes.length; i++) {
+                        this.params.officeIds.push(checkedOfficeNodes[i].id);
+                    }
                 })
             },
             changeDataScope: function (e, param) {
@@ -131,16 +140,27 @@ new Vue({
                     $("#select-treetreeSelectOfficeEdit").css("display", "");
                     this.initOfficeTree();
                 }
-                console.log(this.params)
 
             },
             onCheck: function (event, treeId, treeNode) {
                 this.params.resIds = [];
+                //获取树中复选框选中的资源
                 let checkedNodes = this.treeObj.getCheckedNodes(true);
                 for (let i = 0; i < checkedNodes.length; i++) {
                     this.params.resIds.push(checkedNodes[i].id);
                 }
+
+                //跨公司officeIds
+                this.params.officeIds = [];
+                let checkedOfficeNodes = this.officeTreeObj.getCheckedNodes(true);
+                for (let i = 0; i < checkedOfficeNodes.length; i++) {
+                    this.params.officeIds.push(checkedOfficeNodes[i].id);
+                }
+
+                console.log(this.params.officeIds)
+
             },
+
             changeOffice: function () {
                 layer.roleOfficeName = this.role.officeName;
                 layer.roleOfficeId = this.role.officeId;

@@ -40,11 +40,29 @@ public interface SysRoleMapper extends Mapper<SysRole> {
     @InsertProvider(type = SysRoleProvider.class, method = "insertBatchRoleResource")
     int insertBatchRoleResource(@Param("rid") Long rid, @Param("resIds") List<Long> resIds);
 
+    //批量删除sys_role_resource中的信息
+    @DeleteProvider(type = SysRoleProvider.class, method = "deleteBatchRoleOffice")
+    int deleteBatchRoleOffice(@Param("rid") Long rid);
+
+    //批量添加sys_role_resource中的信息
+    @InsertProvider(type = SysRoleProvider.class, method = "insertBatchRoleOffice")
+    int insertBatchRoleOffice(@Param("rid") Long rid, @Param("officeIds") List<Long> officeIds);
+
     //逻辑删除角色，del_flag=1
     @Update("update sys_role set del_flag=1 where id=#{rid}")
     int deleteRole(Long rid);
 
-    //逻辑删除关联角色的信息
-    @UpdateProvider(type = SysRoleProvider.class, method = "deleteRelevanceRole")
-    int deleteRelevanceRole(Long rid);
+    //删除关联role的信息  中间表
+    @Delete("delete from  sys_role_office where role_id=#{rid}")
+    int deleteRelevanceRoleOffice(Long rid);
+    @Delete("delete from  sys_role_resource where role_id=#{rid}")
+    int deleteRelevanceRoleResource(Long rid);
+    @Delete("delete from  sys_user_role  where role_id=#{rid}")
+    int RdeleteRelevanceRoleUser(Long rid);
+
+
+    //新增角色
+    @InsertProvider(type = SysRoleProvider.class, method = "saveRole")
+    @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")//能够为对象生成自增的主键值
+    int saveRole(@Param("role") SysRole role);
 }

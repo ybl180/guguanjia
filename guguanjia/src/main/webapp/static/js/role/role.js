@@ -18,11 +18,41 @@ new Vue({
                 },
             },
 
-            addResourceNodes:[],
-            addResourceTreeObj:{},
+            /*
+               添加角色模块
+             */
+            addResourceNodes: [],
+            addResourceTreeObj: {},
 
-            addOfficeNodes:[],
-            addOfficeTreeObj:{}
+            addOfficeNodes: [],
+            addOfficeTreeObj: {},
+
+            addTreeSetting: {
+                data: {
+                    simpleData: {
+                        enable: true,
+                        pIdKey: "parentId"
+                    }
+                },
+                check: {//设置checkbox 处理
+                    enable: true,
+                    chkboxType: {"Y": "ps", "N": "ps"},
+                    chkStyle: "checkbox",
+                    autoCheckTrigger: true
+                },
+                callback: {
+                    onCheck: this.onCheck
+                }
+            },
+            addRole: {
+                resIds: [],
+                officeIds: [],
+                role: {
+                    dataScope: 9,    //按明细设置
+                    officeId: '',
+                },
+                officeName: ''
+            }
 
         }
 
@@ -112,25 +142,95 @@ new Vue({
         /*
             角色添加部分
          */
-        initAddResourceTree:function () {
+        initAddResourceTree: function () {
             axios({
                 url: "manager/menu/list"
             }).then(response => {
-                this.nodes = response.data;
-                this.nodes[this.nodes.length] = {id: 0, name: "权限列表", open: true};
-                this.selectByRid();
+                this.addResourceNodes = response.data;
+                this.addResourceNodes[this.addResourceNodes.length] = {id: 0, name: "权限列表", open: true};
+                this.addResourceTreeObj = $.fn.zTree.init($("#select-treetreeSelectRes"), this.addTreeSetting, this.addResourceNodes);
             }).catch(error => {
                 layer.msg(error.message)
             })
         },
-
-        initAddOfficeTree:function(){
+        initAddOfficeTree: function () {
             axios({
                 url: "manager/office/list"
             }).then(response => {
-                this.officeNodes = response.data;
-                this.officeNodes[this.officeNodes.length] = {id: 0, name: "所有机构", open: true};
-                this.selectOfficeByRid();
+                this.addOfficeNodes = response.data;
+                this.addOfficeNodes[this.addOfficeNodes.length] = {id: 0, name: "所有机构"};
+                this.addOfficeTreeObj = $.fn.zTree.init($("#select-treetreeSelectOffice"), this.addTreeSetting, this.addOfficeNodes);
+            })
+        },
+        onCheck: function (event, treeId, treeNode) {
+            this.addRole.resIds = [];
+            //获取树中复选框选中的资源
+            let checkedNodes = this.addResourceTreeObj.getCheckedNodes(true);
+            for (let i = 0; i < checkedNodes.length; i++) {
+                this.addRole.resIds.push(checkedNodes[i].id);
+            }
+            //跨公司officeIds
+            this.addRole.officeIds = [];
+            let checkedOfficeNodes = this.addOfficeTreeObj.getCheckedNodes(true);
+            for (let i = 0; i < checkedOfficeNodes.length; i++) {
+                this.addRole.officeIds.push(checkedOfficeNodes[i].id);
+            }
+
+            console.log(this.params)
+        },
+
+        changeAddRoleDataScope: function (e, param) {
+            this.addRole.role.dataScope = param.selected;
+            if (param.selected != 9) {
+                $("#select-treetreeSelectOffice").css("display", "none")
+            } else {
+                $("#select-treetreeSelectOffice").css("display", "");
+                this.initAddOfficeTree();
+            }
+        },
+        selectOffice: function () {
+            layer.roleOfficeName = this.addRole.officeName;
+            layer.roleOfficeId = this.addRole.role.officeId;
+            layer.open({
+                type: 2,
+                content: "manager/role/roleSelectOffice",
+                area: ["80%", "80%"],
+                end: () => {
+                    this.addRole.officeName = layer.changeOfficeName;
+                    this.addRole.role.officeId = layer.changeOfficeId
+                }
+            })
+        },
+        //保存用户
+        saveRole: function () {
+            axios({
+                url: "manager/role/saveRole",
+                method: "post",
+                data: this.addRole
+            }).then(response => {
+                if (response.data.success) {//添加成功
+                    this.selectAll();
+                    //切换激活栏状态   siblings兄弟元素
+                    $("#myTab").find("li[class='active']").attr('class', '').siblings().attr("class", "active");
+                    $("#home").addClass("active");
+                    $("#profile").removeClass("active");
+                    //清空数据
+                    this.addRole = {
+                        resIds: [],
+                        officeIds: [],
+                        role: {
+                            dataScope: 9,    //按明细设置
+                            officeId: '',
+                        },
+                        officeName: ''
+                    };
+                    this.initAddOfficeTree();
+                    this.initAddResourceTree();
+                    $("#select-treetreeSelectOffice").css("display", "");
+                }
+                layer.msg(response.data.msg)
+            }).catch(error => {
+                console.log(error.message)
             })
         }
 
@@ -141,10 +241,18 @@ new Vue({
     },
     mounted: function () {
         this.initTree();
-        this.initAddResourceTree();
-        this.initAddOfficeTree();
         $("#userDataScope").chosen({width: "80%", search_contains: true});
-        $("#saveUserDataScope").chosen({width: "50%", search_contains: true});
         $("#userDataScope").on("change", this.changeDataScope);
+
+        //添加
+        this.initAddResourceTree();
+        $("#saveUserDataScope").chosen({width: "50%", search_contains: true});
+        if (this.addRole.role.dataScope == 9) {
+            this.initAddOfficeTree();
+        }
+        $("#saveUserDataScope").on("change", this.changeAddRoleDataScope)
+    },
+    updated:function () {
+        $("#saveUserDataScope").trigger("chosen:updated");
     }
 });

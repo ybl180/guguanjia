@@ -26,4 +26,6 @@ public interface SysRoleService extends BaseService<SysRole> {
 
     //逻辑删除角色
     int deleteRole(Long rid);
+
+    int saveRole(Map<String, Object> params);
 }
