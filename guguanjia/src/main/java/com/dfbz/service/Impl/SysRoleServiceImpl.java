@@ -94,7 +94,7 @@ public class SysRoleServiceImpl extends BaseServiceImpl<SysRole> implements SysR
         //删除关联表数据
         sysRoleMapper.deleteRelevanceRoleOffice(rid);
         sysRoleMapper.deleteRelevanceRoleResource(rid);
-        sysRoleMapper.RdeleteRelevanceRoleUser(rid);
+        sysRoleMapper.deleteRelevanceRoleUser(rid);
         return result;
     }
 

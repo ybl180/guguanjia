@@ -130,7 +130,7 @@
                     <li class="divider"></li>
 
                     <li>
-                        <a href="toLogin">
+                        <a href="#" @click.prevent="logout">
                             <i class="ace-icon fa fa-power-off"></i>
                             退出
                         </a>
@@ -145,11 +145,26 @@
         el: "#navbar-container",
         data: {
             loginUserName: ''
+        }, methods: {
+            logout: function () {//退出登录      1.发送请求服务器，注销服务器的用户状态    2.注销客户端保持的用户状态
+                axios({
+                    url: "logout"
+                }).then(response => {
+                    if (response.data.success) {
+                        sessionStorage.clear();//清除保存数据
+                        location.href = "toLogin";
+                    }
+                }).catch(function (error) {
+                    layer.msg(error.message)
+                })
+            }
         },
         mounted: function () {
             let userInfo = JSON.parse(sessionStorage.getItem("userInfo"));
             if (userInfo != null) {
                 this.loginUserName = userInfo.name;
+            } else {//登录授权处理，未登录跳转到登录页
+                location.href = "toLogin"
             }
         }
     })

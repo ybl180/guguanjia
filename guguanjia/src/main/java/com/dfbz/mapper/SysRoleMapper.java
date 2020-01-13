@@ -58,7 +58,7 @@ public interface SysRoleMapper extends Mapper<SysRole> {
     @Delete("delete from  sys_role_resource where role_id=#{rid}")
     int deleteRelevanceRoleResource(Long rid);
     @Delete("delete from  sys_user_role  where role_id=#{rid}")
-    int RdeleteRelevanceRoleUser(Long rid);
+    int deleteRelevanceRoleUser(Long rid);
 
 
     //新增角色

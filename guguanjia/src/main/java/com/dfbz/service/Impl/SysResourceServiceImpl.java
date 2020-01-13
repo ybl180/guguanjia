@@ -4,6 +4,7 @@ import com.dfbz.entity.SysResource;
 import com.dfbz.mapper.SysResourceMapper;
 import com.dfbz.service.SysResourceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,5 +26,11 @@ public class SysResourceServiceImpl extends BaseServiceImpl<SysResource> impleme
     @Override
     public List<SysResource> selectByRid(Long rid) {
         return sysResourceMapper.selectByRid(rid);
+    }
+
+    @Override
+    @Cacheable(cacheNames = "resourceCache", key = "'com.dfbz.service.Impl.SysResourceServiceImpl:selectByUid'")
+    public List<SysResource> selectByUid(long uid) {
+        return sysResourceMapper.selectByUid(uid);
     }
 }

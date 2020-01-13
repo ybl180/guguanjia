@@ -13,4 +13,6 @@ import java.util.List;
  */
 public interface SysResourceService extends BaseService<SysResource> {
     List<SysResource> selectByRid(Long rid);
+
+    List<SysResource> selectByUid(long uid);
 }

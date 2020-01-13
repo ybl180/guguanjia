@@ -135,7 +135,7 @@ new Vue({
             layer.open({
                 type: 2,
                 content: "manager/role/toDetailPage",
-                area: ["30%", "70%"]
+                area: ["70%", "70%"]
             })
         },
 
