@@ -29,8 +29,13 @@ public class SysResourceServiceImpl extends BaseServiceImpl<SysResource> impleme
     }
 
     @Override
-    @Cacheable(cacheNames = "resourceCache", key = "'com.dfbz.service.Impl.SysResourceServiceImpl:selectByUid'")
     public List<SysResource> selectByUid(long uid) {
         return sysResourceMapper.selectByUid(uid);
+    }
+
+    @Override
+    @Cacheable(cacheNames = "resourceCache", key = "'com.dfbz.service.Impl.SysResourceServiceImpl:selectAll'")
+    public List<SysResource> selectAll() {
+        return super.selectAll();
     }
 }

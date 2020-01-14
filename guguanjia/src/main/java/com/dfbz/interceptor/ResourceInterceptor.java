@@ -53,19 +53,10 @@ public class ResourceInterceptor implements HandlerInterceptor {
                     return true;
                 }
             }
+            request.getRequestDispatcher("/index").forward(request,response);//没有权限，跳转到index
         } else {
             return true;//在sysResources中没有匹配到，不需要授权，放行
         }
         return false;
-    }
-
-    @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-
-    }
-
-    @Override
-    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-
     }
 }

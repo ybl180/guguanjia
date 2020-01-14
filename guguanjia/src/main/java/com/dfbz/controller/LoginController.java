@@ -45,7 +45,7 @@ public class LoginController {
                 result.setMsg("登录成功");
                 result.setObj(checkSysUser);
                 //将用户信息放入session
-//                session.setAttribute("userInfo", checkSysUser);
+                session.setAttribute("userInfo", checkSysUser);
             }
         }
         return result;

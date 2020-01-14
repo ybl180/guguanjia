@@ -35,7 +35,7 @@ public class SysResourceController {
     @RequestMapping("selectByUid")
     public List<SysResource> selectByUid(Long uid, HttpSession session) {
         List<SysResource> responses = sysResourceService.selectByUid(uid);
-        session.setAttribute("responses", responses);
+        session.setAttribute("resources", responses);
         return responses;
     }
 
