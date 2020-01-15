@@ -46,7 +46,7 @@ public class SysOfficeController {
     }
 
     @RequestMapping("toList")
-    private PageInfo<SysOffice> toList(@RequestBody Map<String, Object> params) {
+    public  PageInfo<SysOffice> toList(@RequestBody Map<String, Object> params) {
         return sysOfficeService.selectPage(params);
     }
 

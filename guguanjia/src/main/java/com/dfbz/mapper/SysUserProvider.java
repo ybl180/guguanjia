@@ -37,15 +37,17 @@ public class SysUserProvider {
             sb.append(" AND so.id = #{officeId}  ");
         }
 
-//        if (params.containsKey("roleIds") && !StringUtils.isEmpty(params.get("roleIds"))) {
-//            List<Object> roleIds = Arrays.asList(params.get("roleIds"));
-//            sb.append(" AND sr.id IN ( ");
-//            for (int i = 0; i < roleIds.size(); i++) {
-//                sb.append("#{roleIds[" + i + "]},");
-//            }
-//            sb.deleteCharAt(sb.length() - 1);
-//            sb.append(")");
-//        }
+        if (params.containsKey("roleIds") && !StringUtils.isEmpty(params.get("roleIds"))) {
+            List<Long> roleIds = (List<Long>) params.get("roleIds");
+            if (roleIds.size() > 0) {
+                sb.append(" AND sr.id IN ( ");
+                for (int i = 0; i < roleIds.size(); i++) {
+                    sb.append("#{roleIds[" + i + "]},");
+                }
+                sb.deleteCharAt(sb.length() - 1);
+                sb.append(")");
+            }
+        }
 
         return sb.toString();
     }

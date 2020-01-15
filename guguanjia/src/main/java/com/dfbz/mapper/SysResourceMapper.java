@@ -34,15 +34,18 @@ public interface SysResourceMapper extends Mapper<SysResource> {
             " sre.update_by, " +
             " sre.del_flag, " +
             " sre.permission_str  " +
-            "FROM " +
-            " sys_user_role sur, " +
-            " sys_role sro, " +
+            " from  " +
+            " sys_resource sre, " +
             " sys_role_resource srr, " +
-            " sys_resource sre  " +
-            "WHERE " +
-            " sur.user_id = #{uid}  " +
-            " AND sur.role_id = sro.id  " +
-            " AND sro.id = srr.role_id  " +
-            " AND srr.resource_id = sre.id")
+            " sys_user_role sur " +
+            " where  " +
+            " sur.role_id=srr.role_id " +
+            " and " +
+            " srr.resource_id=sre.id " +
+            " and " +
+            " sur.user_id=#{uid} " +
+            " and sre.del_flag=0 " +
+            " group BY sre.parent_id,sre.sort,sre.id " +
+            " order by sre.parent_id ")
     List<SysResource> selectByUid(long uid);
 }

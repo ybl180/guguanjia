@@ -22,7 +22,8 @@ new Vue({
             },
             officeName: '全部',
             name: '',
-            treeObj: ''
+            treeObj: {},
+            zNodes:[]
         }
 
     },
@@ -42,10 +43,11 @@ new Vue({
             axios({
                 url: "manager/office/list"
             }).then(response => {
-                let zNodes = response.data;
-                zNodes[zNodes.length] = {id: 0,  name: '所有机构', open: true};
-                console.log(zNodes);
-                this.treeObj = $.fn.zTree.init($("#pullDownTreeOne"), this.zSetting, zNodes)
+                console.log(response.data)
+                this.zNodes = response.data;
+                this.zNodes[this.zNodes.length] = {id: 0,  name: '所有机构', open: true};
+                console.log(this.zNodes);
+                this.treeObj = $.fn.zTree.init($("#pullDownTreeOne"), this.zSetting, this.zNodes)
             }).catch()
 
         },

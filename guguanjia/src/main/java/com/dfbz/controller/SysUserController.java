@@ -60,4 +60,9 @@ public class SysUserController {
     public ModelAndView detail() {
         return new ModelAndView("/user/user-detail");
     }
+
+    @RequestMapping("toUpdate")
+    public ModelAndView toUpdate() {
+        return new ModelAndView("/user/detail");
+    }
 }

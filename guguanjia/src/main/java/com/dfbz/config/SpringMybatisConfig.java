@@ -1,17 +1,20 @@
 package com.dfbz.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.alibaba.druid.support.spring.stat.DruidStatInterceptor;
 import com.github.pagehelper.PageInterceptor;
 import org.apache.ibatis.logging.log4j2.Log4j2Impl;
 import org.apache.ibatis.plugin.Interceptor;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.PropertySource;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Properties;
 
 /**
@@ -48,7 +51,15 @@ public class SpringMybatisConfig {
             e.printStackTrace();
         }
         DruidDataSource dataSource = new DruidDataSource();
-        dataSource.configFromPropety(properties);
+        dataSource.configFromPropety(properties);//自动配置参数
+
+        //设置性能监控配置  组合配置  性能监控，sql防火墙，日志信息
+        try {
+            dataSource.setFilters("stat,wall,log4j2");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return dataSource;
     }
 
@@ -68,6 +79,26 @@ public class SpringMybatisConfig {
         factoryBean.setPlugins(new Interceptor[]{pageInterceptor});
 
         return factoryBean;
+    }
+
+
+    /**
+     * 设置spring监控:
+     * 1.设置DruidStatInterceptor
+     * 2.设置BeanNameAutoProxyCreator
+     */
+    @Bean(name = "druidStatInterceptor")
+    public DruidStatInterceptor getDruidStatInterceptor() {
+        return new DruidStatInterceptor();
+    }
+
+    @Bean
+    public BeanNameAutoProxyCreator getNameAutoProxyCreator() {
+        BeanNameAutoProxyCreator beanNameAutoProxyCreator = new BeanNameAutoProxyCreator();
+        beanNameAutoProxyCreator.setInterceptorNames("druidStatInterceptor");
+        beanNameAutoProxyCreator.setProxyTargetClass(true);
+        beanNameAutoProxyCreator.setBeanNames(new String[]{"*Mapper", "*ServiceImpl"});//设置需要监控的类
+        return beanNameAutoProxyCreator;
     }
 
 

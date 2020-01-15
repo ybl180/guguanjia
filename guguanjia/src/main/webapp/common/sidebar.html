@@ -462,8 +462,9 @@
                     //1.当前nodes如果有children属性，并且该属性有数据，则需要递归遍历children
                     if (nodes[i].children != undefined && nodes[i].children.length > 0) {
                         let li = $(`<li data-level="1"></li>`);
-                        li.append(`<a
-                                    href="${nodes[i].url};" class="dropdown-toggle"
+                        if (nodes[i].children[0].type == 0) {
+                            li.append(`<a
+                                    href="javascript:void(0)" class="dropdown-toggle"
                                     haschild="true"
                                     >
                                     <i class="menu-icon fa ${nodes[i].icon}"></i>
@@ -473,6 +474,15 @@
                                     <b class="arrow fa fa-angle-down"></b>
                                    </a>
                                    <b class="arrow"></b>`);
+                        } else {
+                            li.append(`<a
+                                    href="${nodes[i].url};" haschild="true"  >
+                                    <i class="menu-icon fa ${nodes[i].icon}"></i>
+                                    <span class="menu-text"
+                                          style="vertical-align: middle;"
+                                    > ${nodes[i].name} </span> `);
+                        }
+
                         //解决下拉后的样式处理
                         // debugger;
                         li.on("click", function () {
@@ -488,7 +498,7 @@
                                 b.addClass("fa-angle-down");
                             }
                         })
-                            let ul = $(`<ul class="submenu nav-hide" style="display:none;"></ul>`);//生成子级列表ul
+                        let ul = $(`<ul class="submenu nav-hide" style="display:none;"></ul>`);//生成子级列表ul
                         li.append(ul);//将子列表挂载到当前的li中
                         parent.append(li);
                         this.show(nodes[i].children, ul);//继续递归遍历
@@ -509,7 +519,7 @@
                         }
 
                     }
-                };
+                } ;
             },
 
         },

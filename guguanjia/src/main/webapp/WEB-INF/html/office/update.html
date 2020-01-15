@@ -403,9 +403,11 @@
                                             <td class="CaptionTD"></td>
                                             <td class="DataTD width-100" id="selectedWaste">
 
-                                                <p :id="'waste-'+waste.id" v-for="waste in office.wastes">
+                                                <p :id="'waste-'+waste" v-for="waste in office.wastes" >
+                                                    <span v-if="waste!=null">
                                                     <i class="fa fa-minus-circle"></i>&nbsp;
                                                     {{waste.wasteTypeCode}}-{{waste.name}} &gt; {{waste.code}}
+                                                    </span>
                                                     <input type="hidden" name="waste" value="3">
                                                 </p>
 

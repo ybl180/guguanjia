@@ -1,11 +1,13 @@
 package com.dfbz.config;
 
+import com.dfbz.aspect.LogAspect;
 import com.dfbz.interceptor.LoginInterceptor;
 import com.dfbz.interceptor.ResourceInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -28,6 +30,7 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @Configuration
 @ComponentScan(basePackages = "com.dfbz.controller")
 @EnableWebMvc
+@EnableAspectJAutoProxy     //开启切面注解支持
 public class SpringMvcConfig implements WebMvcConfigurer {
     /**
      * 由于spring的生命周期中，@Bean创建组件bean会先执行
@@ -65,13 +68,18 @@ public class SpringMvcConfig implements WebMvcConfigurer {
         //设置拦截逻辑
         loginRegistration.addPathPatterns(new String[]{"/**"});//拦截所有请求
         //设置放行逻辑
-        loginRegistration.excludePathPatterns(new String[]{"/toLogin", "/doLogin", "/index", "/manager/menu/selectByUid"});
+        loginRegistration.excludePathPatterns(new String[]{"/toLogin", "/doLogin", "/index", "/manager/menu/selectByUid", "/manager/office/*"});
 //        loginRegistration.order(1);
 
         InterceptorRegistration resourceRegistration = registry.addInterceptor(resourceInterceptor);
         resourceRegistration.addPathPatterns(new String[]{"/**"});
-        resourceRegistration.excludePathPatterns(new String[]{"/toLogin", "/doLogin", "/index", "/manager/menu/selectByUid"});
+        resourceRegistration.excludePathPatterns(new String[]{"/toLogin", "/doLogin", "/index", "/manager/menu/selectByUid", "/manager/office/*"});
 //        resourceRegistration.order(2);
+    }
+
+    @Bean
+    public LogAspect getLogAspect() {
+        return new LogAspect();
     }
 
 }

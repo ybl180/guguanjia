@@ -85,6 +85,6 @@ public class EncryptUtils {
 		//第一个加密字符串是密码，第二加密字符串是用户名
 		//86f3059b228c8acf99e69734b6bb32cc
 		//86f3059b228c8acf99e69734b6bb32cc
-		System.out.println(MD5_HEX(MD5_HEX("admin")+"admin"));
+		System.out.println(MD5_HEX(MD5_HEX("123456")+"13500375617"));
 	}
 }

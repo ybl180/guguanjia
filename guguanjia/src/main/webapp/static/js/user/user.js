@@ -6,7 +6,7 @@ new Vue({
                 userNo: '',
                 name: '',
                 officeId: '',
-                roleIds: ''
+                roleIds: '',
             },
             nodes: [],
             treeObj: '',
@@ -35,7 +35,7 @@ new Vue({
     },
     methods: {
         selectAll: function (pageNum, pageSize) {
-            this.params.roleIds = this.paramsRoles;
+
             this.params.pageNum = pageNum;
             this.params.pageSize = pageSize;
             axios({
@@ -107,22 +107,20 @@ new Vue({
             })
         },
         addRolesCondition: function (e, param) {
-            //TODO
-            // for (let i = 0; i < this.Roles.length; i++) {
-            //     if (this.Roles[i].id == param.selected) {
-            //         this.Roles[i].show = !this.Roles[i].show;
-            //         if (this.Roles[i].show) {//条件中存在
-            //             this.paramsRoles.push(param.selected);
-            //         } else {
-            //             for (let j = 0; j < this.paramsRoles.length; j++) {
-            //                 if (this.paramsRoles[j] == param.selected) {
-            //                     this.paramsRoles.splice(j)
-            //                 }
-            //             }
-            //         }
-            //     }
-            // }
-            console.log(param)
+            for (let i = 0; i < this.Roles.length; i++) {
+                if (param.selected != undefined && this.Roles[i].id == param.selected) {
+                    this.paramsRoles.push(param.selected);
+                    break;
+                } else if (this.Roles[i].id == param.deselected) {
+                    for (let j = 0; j < this.paramsRoles.length; j++) {
+                        if (this.paramsRoles[j] == param.deselected) {
+                            this.paramsRoles.splice(j);
+                            break;
+                        }
+                    }
+                }
+            }
+            this.params.roleIds = this.paramsRoles;
             console.log(this.paramsRoles)
         },
         detailUser: function (user) {
@@ -134,6 +132,15 @@ new Vue({
                 title: "用户详情"
             })
         },
+        toUpdate: function (user) {
+            layer.user = user;
+            layer.open({
+                type: 2,
+                content: "manager/sysuser/toUpdate",
+                area: ["80%", "80%"],
+                title: "用户详情"
+            })
+        }
 
     },
     created: function () {
